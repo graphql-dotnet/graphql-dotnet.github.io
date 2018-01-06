@@ -65,7 +65,7 @@ Field&lt;ListGraphType&lt;DinnerType&gt;&gt;(
         var userContext = context.UserContext.As&lt;GraphQLUserContext&gt;();
     });
 </code></pre>
-<h1 id="dependency-injection">Dependency Injection</h1>
+<h2 id="dependency-injection">Dependency Injection</h2>
 <p>GraphQL .NET supports dependency injection through a simple resolve function on the Schema class.  Internally when trying to resolve a type the library will call this resolve function.</p>
 <p>The default implementation uses <code>Activator.CreateInstance</code>.</p>
 <pre><code class="language-csharp">type =&gt; (GraphType) Activator.CreateInstance(type)
@@ -92,7 +92,7 @@ container.Singleton(new StarWarsSchema(type =&gt; container.Get(type) as IGraphT
     }
 }
 </code></pre>
-<h1 id="objectfield-metadata">Object/Field Metadata</h1>
+<h2 id="objectfield-metadata">Object/Field Metadata</h2>
 <p><code>GraphType</code> and <code>FieldType</code> implement the <code>IProvideMetadata</code> interface.  This allows you to add arbitrary information to a field or graph type.  This can be useful in combination with a validation rule or field middleware.</p>
 <pre><code class="language-csharp">public interface IProvideMetadata
 {
@@ -101,7 +101,7 @@ container.Singleton(new StarWarsSchema(type =&gt; container.Get(type) as IGraphT
     bool HasMetadata(string key);
 }
 </code></pre>
-<h1 id="field-middleware">Field Middleware</h1>
+<h2 id="field-middleware">Field Middleware</h2>
 <p>You can write middleware for fields to provide additional behaviors during field resolution.  The following example is how Metrics are captured.  You register Field Middleware in the <code>ExecutionOptions</code>.</p>
 <pre><code class="language-csharp">var result = await _executer.ExecuteAsync(_ =&gt;
 {
@@ -143,7 +143,7 @@ container.Singleton(new StarWarsSchema(type =&gt; container.Get(type) as IGraphT
     };
 });
 </code></pre>
-<h1 id="authentication-authorization">Authentication / Authorization</h1>
+<h2 id="authentication-authorization">Authentication / Authorization</h2>
 <p>You can write validation rules that will run before the query is executed.  You can use this pattern to check that the user is authenticated or has permissions for a specific field.  This example uses the <code>Metadata</code> dictionary available on Fields to set permissons per field.</p>
 <pre><code class="language-csharp">public class RequiresAuthValidationRule : IValidationRule
 {
@@ -187,7 +187,7 @@ container.Singleton(new StarWarsSchema(type =&gt; container.Get(type) as IGraphT
     }
 }
 </code></pre>
-<h2 id="permission-extension-methods">Permission Extension Methods</h2>
+<h3 id="permission-extension-methods">Permission Extension Methods</h3>
 <pre><code class="language-csharp">Field(x =&gt; x.Name).AddPermission(&quot;Some permission&quot;);
 </code></pre>
 <pre><code class="language-csharp">public static class GraphQLExtensions
@@ -233,7 +233,7 @@ container.Singleton(new StarWarsSchema(type =&gt; container.Get(type) as IGraphT
     }
 }
 </code></pre>
-<h1 id="protection-against-malicious-queries">Protection Against Malicious Queries</h1>
+<h2 id="protection-against-malicious-queries">Protection Against Malicious Queries</h2>
 <p>GraphQL allows the client to bundle and nest many queries into a single request. While this is quite convenient it also makes GraphQL endpoints susceptible to Denial of Service attacks.</p>
 <p>To mitigate this graphql-dotnet provides a few options that can be tweaked to set the upper bound of nesting and complexity of incoming queries so that the endpoint would only try to resolve queries that meet the set criteria and discard any overly complex and possibly malicious query that you don't expect your clients to make thus protecting your server resources against depletion by a denial of service attacks.</p>
 <p>These options are passed to the <code>DocumentExecutor.ExecuteAsync(...)</code> via an instance of <code>GraphQL.Validation.Complexity.ComplexityConfiguration</code> <sub><sup><a href="https://github.com/graphql-dotnet/graphql-dotnet/blob/master/src/GraphQL.GraphiQL/Controllers/GraphQLController.cs#L62"><em>(click here for an example)</em></a></sup></sub>. You can leave any of the options null to go with the default value and disable that specific test. The available options are the following:</p>
@@ -268,7 +268,7 @@ It is also possilbe to use a theorical value for this (for example 2.0) to asses
 </code></pre>
 <p>Or simply put on average we will have <strong>2x Products</strong> each will have 1 Title for a total of <strong>2x Titles</strong> plus per each Product entry we will have 3 locations overriden by <code>first</code> argument (we follow relay's spec for <code>first</code>,<code>last</code> and <code>id</code> arguments) and each of these 3 locations have a lat and a long totalling <strong>6x Locations</strong> having <strong>6x lat</strong>s and <strong>6x longs</strong>.</p>
 <p>Now if we set the <code>avgImpact</code> to 2.0 and set the <code>MaxComplexity</code> to 23 (or higher) the query will execute correctly. If we change the <code>MaxComplexity</code> to something like 20 the DocumentExecutor will fail right after parsing the AST tree and will not attempt to resolve any of the fields (or talk to the database).</p>
-<h1 id="query-batching">Query Batching</h1>
+<h2 id="query-batching">Query Batching</h2>
 <p>Query batching allows you to make a single request to your data store instead of multiple requests.  This can also often be referred to as the <a href="http://stackoverflow.com/questions/97197/what-is-the-n1-selects-issue">&quot;N+1&quot;</a> problem.  One technique of accomplishing this is to have all of your resolvers return a <code>Task</code>, then resolve those tasks when the batch is complete.  Some projects provide features like <a href="http://jasperfx.github.io/marten/documentation/documents/querying/batched_queries/">Marten Batched Queries</a> that support this pattern.</p>
 <p>The trick is knowing when to execute the batched query.  GraphQL .NET provides the ability to add listeners in the execution pipeline.  Combined with a custom <code>UserContext</code> this makes executing the batch trivial.</p>
 <pre><code class="language-csharp">public class GraphQLUserContext
@@ -308,7 +308,7 @@ Field&lt;ListGraphType&lt;DinnerType&gt;&gt;(
 <li><a href="http://jasperfx.github.io/marten/documentation/documents/querying/batched_queries/">Marten</a> - by Jeremy Miller, PostgreSQL</li>
 <li><a href="https://github.com/dlukez/graphql-dotnet-dataloader">GraphQL .NET DataLoader</a> by <a href="https://github.com/dlukez">Daniel Zimmermann</a></li>
 </ul>
-<h1 id="metrics">Metrics</h1>
+<h2 id="metrics">Metrics</h2>
 <p>Metrics are captured during execution.  This can help you determine performance issues within a resolver or validation.  Field metrics are captured using Field Middleware and the results are returned as a <code>PerfRecord</code> array on the <code>ExecutionResult</code>.  You can then generate a report from those records using <code>StatsReport</code>.</p>
 <pre><code class="language-csharp">var start = DateTime.UtcNow;
 
@@ -318,7 +318,7 @@ var result = await _executer.ExecuteAsync( _ =&gt;
 
 var report = StatsReport.From(schema, result.Operation, result.Perf, start);
 </code></pre>
-<h1 id="relay">Relay</h1>
+<h2 id="relay">Relay</h2>
 <p>The core project provides a few classes to help with Relay.  You can find more types and helpers <a href="https://github.com/graphql-dotnet/relay">here</a>.</p>
 <p>(Example needed)</p>
 
