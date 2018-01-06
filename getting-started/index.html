@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>GraphQL - Getting Started</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="/content/prism.css" rel="stylesheet" type="text/css" />
+    <link href="/content/theme.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="banner">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">GraphQL</a>
+        </div>
+        <nav class="collapse navbar-collapse" role="navigation">
+          <ul class="nav navbar-nav pull-right">
+            <li>
+              <a href="/getting-started">Getting Started</a>
+            </li>
+            <li>
+              <a href="/learn">Advanced Topics</a>
+            </li>
+            <li><a href="/learn" title="Advanced Topics">Previous</a></li>
+            
+          </ul>
+          <div class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input id="search" type="search" class="form-control" placeholder="Search">
+            </div>
+          </div>
+        </nav>
+      </div>
+    </nav>
+    <div class="container">
+      <nav class="navbar-inverse">
+        <ol class="breadcrumb"><li><a href="/">GraphQL</a></li><li class="active">Getting Started</li></ol>
+      </nav>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div id="sidebar"></div>
+        </div>
+        <div class="col-md-9">
+          <h1>Getting Started</h1>
+          <div id="main-pane">
+            <!--Title:Getting Started-->
+<!--Url:getting-started-->
+<h2 id="basics">Basics</h2>
+<p><a href="http://graphql.org/learn">GraphQL.org</a> is the best place to get started learning GraphQL.  Here is an excerpt from the introduction:</p>
+<blockquote>
+<p>GraphQL is a query language for your API, and a server-side runtime for executing queries by using a type system you define for your data. GraphQL isn't tied to any specific database or storage engine and is instead backed by your existing code and data.</p>
+</blockquote>
+<blockquote>
+<p>A GraphQL service is created by defining types and fields on those types, then providing functions for each field on each type.</p>
+</blockquote>
+<p>Here is a &quot;Hello World&quot; for GraphQL .NET.</p>
+<pre><code class="language-graphql">type StarWarsQuery {
+  hero: Droid
+}
+
+type Droid {
+  id: String!
+  name: String
+}
+</code></pre>
+<pre><code class="language-csharp">namespace ConsoleApplication
+{
+    using System;
+    using System.Threading.Tasks;
+    using GraphQL;
+    using GraphQL.Http;
+    using GraphQL.Types;
+
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+          Run().Wait();
+        }
+
+        private static async Task Run()
+        {
+          Console.WriteLine(&quot;Hello GraphQL!&quot;);
+
+          var schema = new Schema { Query = new StarWarsQuery() };
+
+          var result = await new DocumentExecuter().ExecuteAsync( _ =&gt;
+          {
+            _.Schema = schema;
+            _.Query = @&quot;
+                query {
+                  hero {
+                    id
+                    name
+                  }
+                }
+              &quot;;
+          }).ConfigureAwait(false);
+
+          var json = new DocumentWriter(indent: true).Write(result);
+
+          Console.WriteLine(json);
+        }
+    }
+
+    public class Droid
+    {
+      public string Id { get; set; }
+      public string Name { get; set; }
+    }
+
+    public class DroidType : ObjectGraphType&lt;Droid&gt;
+    {
+      public DroidType()
+      {
+        Field(x =&gt; x.Id).Description(&quot;The Id of the Droid.&quot;);
+        Field(x =&gt; x.Name, nullable: true).Description(&quot;The name of the Droid.&quot;);
+      }
+    }
+
+    public class StarWarsQuery : ObjectGraphType
+    {
+      public StarWarsQuery()
+      {
+        Field&lt;DroidType&gt;(
+          &quot;hero&quot;,
+          resolve: context =&gt; new Droid { Id = &quot;1&quot;, Name = &quot;R2-D2&quot; }
+        );
+      }
+    }
+}
+</code></pre>
+<p>Output</p>
+<pre><code>Hello GraphQL!
+{
+  &quot;data&quot;: {
+    &quot;hero&quot;: {
+      &quot;id&quot;: &quot;1&quot;,
+      &quot;name&quot;: &quot;R2-D2&quot;
+    }
+  }
+}
+</code></pre>
+<h2 id="graphiql">GraphiQL</h2>
+<p><a href="https://github.com/graphql/graphiql">GraphiQL</a> is an interactive in-browser GraphQL IDE.  This is a fantastic developer tool to help you form queries and explore your Schema.  The <a href="https://github.com/graphql-dotnet/graphql-dotnet/tree/master/src/GraphQL.GraphiQL">sample project</a> gives an example of hosting the GraphiQL IDE.</p>
+<p><img src="http://i.imgur.com/2uGdVAj.png" alt="" /></p>
+<h2 id="queries">Queries</h2>
+<p>To perform a query you need to have a root Query object that is an <code>ObjectGraphType</code>.  Queries should only fetch data and never modify it.  You can only have a single root Query object.</p>
+<pre><code class="language-graphql">query {
+  hero {
+    id
+    name
+  }
+}
+</code></pre>
+<pre><code class="language-csharp">public class StarWarsQuery : ObjectGraphType
+{
+  public StarWarsQuery()
+  {
+    Field&lt;DroidType&gt;(
+      &quot;hero&quot;,
+      resolve: context =&gt; new Droid { Id = &quot;1&quot;, Name = &quot;R2-D2&quot; }
+    );
+  }
+}
+
+public class StarWarsSchema : Schema
+{
+  public StarWarsSchema()
+  {
+    Query = new StarWarsQuery();
+  }
+}
+</code></pre>
+<h2 id="arguments">Arguments</h2>
+<p>You can provide arguments to a field.  You can use <code>GetArgument</code> on <code>ResolveFieldContext</code> to retrieve argument values.  <code>GetArgument</code> will attempt to coerce the argument values to the generic type it is given, including primitive values, objects, and enumerations.  You can gain access to the value directly through the <code>Arguments</code> dictionary on <code>ResolveFieldContext</code>.</p>
+<pre><code class="language-graphql">query {
+  droid(id: &quot;1&quot;) {
+    id
+    name
+  }
+}
+</code></pre>
+<pre><code class="language-csharp">public class StarWarsQuery : ObjectGraphType
+{
+  public StarWarsQuery(IStarWarsData data)
+  {
+    Field&lt;DroidType&gt;(
+      &quot;droid&quot;,
+      arguments: new QueryArguments(new QueryArgument&lt;StringGraphType&gt; { Name = &quot;id&quot; }),
+      resolve: context =&gt;
+      {
+        var id = context.GetArgument&lt;string&gt;(&quot;id&quot;);
+        var objectId = contet.Arguments[&quot;id&quot;];
+        return data.GetDroidByIdAsync(id);
+      }
+    );
+  }
+}
+</code></pre>
+<h2 id="variables">Variables</h2>
+<p>You can pass variables recieved from the client to the execution engine by using the <code>Inputs</code> property.</p>
+<ul>
+<li>See the <a href="http://graphql.org/learn/queries/#variables">official GraphQL documentation on variables</a></li>
+</ul>
+<p>Here is what a query looks like with a variable:</p>
+<pre><code class="language-graphql">query DroidQuery($droidId: String) {
+  droid(id: $droidId) {
+    id
+    name
+  }
+}
+</code></pre>
+<p>Here is what this query would look like as a JSON request:</p>
+<pre><code class="language-json">{
+ &quot;query&quot;: &quot;query DroidQuery($droidId: String) { droid(id: $droidId) { id name } }&quot;,
+ &quot;variables&quot;: {
+   &quot;droidId&quot;: &quot;1&quot;
+ }
+}
+</code></pre>
+<pre><code class="language-csharp">var variablesJson = // get from request
+// `ToInputs` converts the json to the `Inputs` class
+var inputs = variablesJson.ToInputs();
+
+var result = await executer.ExecuteAsync(_ =&gt;
+{
+    _.Inputs = inputs;
+});
+</code></pre>
+<h2 id="mutations">Mutations</h2>
+<p>To perform a mutation you need to have a root Mutation object that is an <code>ObjectGraphType</code>.  Mutations make modifications to data and return a result.  You can only have a single root Mutation object.</p>
+<ul>
+<li>See the <a href="https://github.com/graphql-dotnet/graphql-dotnet/tree/master/src/GraphQL.StarWars">StarWars example</a> for more details.</li>
+<li>See the <a href="http://graphql.org/learn/queries/#mutations">official GraphQL documentation on mutations</a>.</li>
+</ul>
+<pre><code class="language-csharp">public class StarWarsSchema : Schema
+{
+    public StarWarsSchema(Func&lt;Type, GraphType&gt; resolveType)
+        : base(resolveType)
+    {
+        Query = (StarWarsQuery)resolveType(typeof (StarWarsQuery));
+        Mutation = (StarWarsMutation)resolveType(typeof (StarWarsMutation));
+    }
+}
+
+/// &lt;example&gt;
+/// This is an example JSON request for a mutation
+/// {
+///   &quot;query&quot;: &quot;mutation ($human:HumanInput!){ createHuman(human: $human) { id name } }&quot;,
+///   &quot;variables&quot;: {
+///     &quot;human&quot;: {
+///       &quot;name&quot;: &quot;Boba Fett&quot;
+///     }
+///   }
+/// }
+/// &lt;/example&gt;
+public class StarWarsMutation : ObjectGraphType&lt;object&gt;
+{
+    public StarWarsMutation(StarWarsData data)
+    {
+        Field&lt;HumanType&gt;(
+            &quot;createHuman&quot;,
+            arguments: new QueryArguments(
+                new QueryArgument&lt;NonNullGraphType&lt;HumanInputType&gt;&gt; {Name = &quot;human&quot;}
+            ),
+            resolve: context =&gt;
+            {
+                var human = context.GetArgument&lt;Human&gt;(&quot;human&quot;);
+                return data.AddHuman(human);
+            });
+    }
+}
+
+public class HumanInputType : InputObjectGraphType
+{
+    public HumanInputType()
+    {
+        Name = &quot;HumanInput&quot;;
+        Field&lt;NonNullGraphType&lt;StringGraphType&gt;&gt;(&quot;name&quot;);
+        Field&lt;StringGraphType&gt;(&quot;homePlanet&quot;);
+    }
+}
+
+// in-memory data store
+public class StarWarsData
+{
+    ...
+
+    public Human AddHuman(Human human)
+    {
+        human.Id = Guid.NewGuid().ToString();
+        _humans.Add(human);
+        return human;
+    }
+}
+</code></pre>
+<h2 id="interfaces">Interfaces</h2>
+<p>A GraphQL Interface is an abstract type that includes a certain set of fields that a type must include to implement the interface.</p>
+<p>Here is an interface that represents a <code>Character</code> in the StarWars universe.</p>
+<pre><code class="language-graphql">interface Character {
+  id: ID!
+  name: String!
+  friends: [Character]
+}
+</code></pre>
+<pre><code class="language-csharp">public class CharacterInterface : InterfaceGraphType&lt;StarWarsCharacter&gt;
+{
+  public CharacterInterface()
+  {
+    Name = &quot;Character&quot;;
+    Field(d =&gt; d.Id).Description(&quot;The id of the character.&quot;);
+    Field(d =&gt; d.Name, nullable: true).Description(&quot;The name of the character.&quot;);
+    Field&lt;ListGraphType&lt;CharacterInterface&gt;&gt;(&quot;friends&quot;);
+  }
+}
+</code></pre>
+<p>Any type that implements <code>Character</code> needs to have these exact fields, arguments, and return types.</p>
+<pre><code class="language-graphql">type Droid implements Character {
+  id: ID!
+  name: String!
+  friends: [Character]
+  primaryFunction: String
+}
+</code></pre>
+<pre><code class="language-csharp">public class DroidType : ObjectGraphType&lt;Droid&gt;
+{
+  public DroidType(IStarWarsData data)
+  {
+    Name = &quot;Droid&quot;;
+    Description = &quot;A mechanical creature in the Star Wars universe.&quot;;
+
+    Field(d =&gt; d.Id).Description(&quot;The id of the droid.&quot;);
+    Field(d =&gt; d.Name, nullable: true).Description(&quot;The name of the droid.&quot;);
+
+    Field&lt;ListGraphType&lt;CharacterInterface&gt;&gt;(
+      &quot;friends&quot;,
+      resolve: context =&gt; data.GetFriends(context.Source)
+    );
+    Field(d =&gt; d.PrimaryFunction, nullable: true).Description(&quot;The primary function of the droid.&quot;);
+
+    Interface&lt;CharacterInterface&gt;();
+  }
+}
+</code></pre>
+<h3 id="registertype">RegisterType</h3>
+<p>When the Schema is built, it looks at the &quot;root&quot; types (Query, Mutation, Subscription) and gathers all of the GraphTypes they expose. Often when you are working with an interface type the concrete types are not exposed on the root types (or any of their children). Since those concrete types are never exposed in the type graph the Schema doesn't know they exist. This is what the <code>RegisterType&lt;&gt;</code> method on the Schema is for.  By using <code>RegisterType&lt;&gt;</code>, it tells the Schema about the specific type and it will properly add it to the <code>PossibleTypes</code> collection on the interface type when the Schema is initialized.</p>
+<pre><code class="language-csharp">public class StarWarsSchema : Schema
+{
+  public StarWarsSchema()
+  {
+    Query = new StarWarsQuery();
+    RegisterType&lt;DroidType&gt;();
+  }
+}
+</code></pre>
+<h2 id="istypeof">IsTypeOf</h2>
+<p><code>IsTypeOf</code> is a function which helps resolve the implementing GraphQL type during execution.  For example, when you have a field that returns a GraphQL Interface the engine needs to know which concrete Graph Type to use.  So if you have a <code>Character</code> interface that is implemented by both <code>Human</code> and <code>Droid</code> types, the engine needs to know which graph type to choose.  The data object being mapped is passed to the <code>IsTypeOf</code> function which should return a boolean value.</p>
+<pre><code class="language-csharp">public class DroidType : ObjectGraphType
+{
+  public DroidType(IStarWarsData data)
+  {
+    Name = &quot;Droid&quot;;
+
+    ...
+
+    Interface&lt;CharacterInterface&gt;();
+
+    IsTypeOf = obj =&gt; obj is Droid;
+  }
+}
+</code></pre>
+<blockquote>
+<p><code>ObjectGraphType&lt;T&gt;</code> provides a default implementation of IsTypeOf for you.</p>
+</blockquote>
+<p>An alternate to using <code>IsTypeOf</code> is instead implementing <code>ResolveType</code> on the Interface or Union.  See the <code>ResolveType</code> section for more details.</p>
+<h2 id="resolvetype">ResolveType</h2>
+<p>An alternate to using <code>IsTypeOf</code> is implementing <code>ResolveType</code> on the Interface or Union.  The major difference is <code>ResolveType</code> is required to be exhastive.  If you add another type that implements an Interface you are required to alter the Interface for that new type to be resolved.</p>
+<blockquote>
+<p>If a type implements <code>ResolveType</code> then any <code>IsTypeOf</code> implementation is ignored.</p>
+</blockquote>
+<pre><code class="language-csharp">public class CharacterInterface : InterfaceGraphType&lt;StarWarsCharacter&gt;
+{
+  public CharacterInterface(
+    DroidType droidType,
+    HumanType humanType)
+  {
+    Name = &quot;Character&quot;;
+
+    ...
+
+    ResolveType = obj =&gt;
+    {
+        if (obj is Droid)
+        {
+            return droidType;
+        }
+
+        if (obj is Human)
+        {
+            return humanType;
+        }
+
+        throw new ArgumentOutOfRangeException($&quot;Could not resolve graph type for {obj.GetType().Name}&quot;);
+    };
+  }
+}
+</code></pre>
+<h2 id="unions">Unions</h2>
+<p>Unions are a composition of two different types.</p>
+<pre><code class="language-csharp">public class CatOrDog : UnionGraphType
+{
+  public CatOrDog()
+  {
+    Type&lt;Cat&gt;();
+    Type&lt;Dog&gt;();
+  }
+}
+</code></pre>
+<h2 id="query-validation">Query Validation</h2>
+<p>There <a href="http://facebook.github.io/graphql/#sec-Validation">are a number of query validation rules</a> that are ran when a query is executed.  All of these are turned on by default.  You can add your own validation rules or clear out the existing ones by accessing the <code>ValidationRules</code> property.</p>
+<pre><code class="language-csharp">var result = await executer.ExecuteAsync(_ =&gt;
+{
+    _.ValidationRules = new[] {new RequiresAuthValidationRule()}.Concat(DocumentValidator.CoreRules());
+});
+</code></pre>
+<h2 id="subscriptions">Subscriptions</h2>
+<p>The Schema class supports a Subscription graph type and the parser supports the <code>subscription</code> keyword.  Subscriptions are an experimental feature of the GraphQL specification.</p>
+<pre><code class="language-graphql">subscription comments($repoName: String!) {
+  newComments(repoName: $repoName) {
+    content
+    postedBy {
+      username
+    }
+    postedAt
+  }
+}
+</code></pre>
+<h2 id="schema-generation">Schema Generation</h2>
+<p>There is currently nothing in the core project to do GraphQL Schema generation based off of existing C# classes.  Here are a few community projects built with GraphQL .NET which do so.</p>
+<ul>
+<li><a href="https://github.com/graphql-dotnet/conventions">GraphQL Conventions</a> by <a href="https://github.com/tlil87">Tommy Lillehagen</a></li>
+<li><a href="https://github.com/dlukez/graphql-dotnet-annotations">GraphQL Annotations</a> by <a href="https://github.com/dlukez">Daniel Zimmermann</a></li>
+<li><a href="https://github.com/holm0563/graphql-schemaGenerator">GraphQL Schema Generator</a> by <a href="https://github.com/holm0563">Derek Holmes</a></li>
+</ul>
+<h1 id="how-do-i-use-xyz-ormdatabase-with-graphql.net">How do I use XYZ ORM/database with GraphQL.NET?</h1>
+<ul>
+<li><a href="https://github.com/JacekKosciesza/StarWars">Entity Framework</a> by <a href="https://github.com/JacekKosciesza">Jacek Kościesza</a></li>
+<li><a href="https://github.com/joemcbride/marten/blob/graphql2/src/DinnerParty/Modules/GraphQLModule.cs">Marten + Nancy</a> by <a href="https://github.com/joemcbride">Joe McBride</a></li>
+</ul>
+
+          </div>
+          <div>
+            <a href="/learn">Previous - Advanced Topics</a>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/domready@1.0.8/ready.min.js"></script>
+    <script src="https://unpkg.com/axios@0.16.2/dist/axios.min.js"></script>
+    <script type="text/javascript" src="/content/prism.js"></script>
+    <script type="text/javascript" src="/content/load.js"></script>
+  </body>
+</html>
