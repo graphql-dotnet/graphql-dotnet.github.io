@@ -203,7 +203,7 @@ public class StarWarsSchema : Schema
 <li>See the <a href="http://graphql.org/learn/queries/#variables">official GraphQL documentation on variables</a></li>
 </ul>
 <p>Here is what a query looks like with a variable:</p>
-<pre><code class="language-graphql">query DroidQuery($droidId: String) {
+<pre><code class="language-graphql">query DroidQuery($droidId: String!) {
   droid(id: $droidId) {
     id
     name
