@@ -212,7 +212,7 @@ public class StarWarsSchema : Schema
 </code></pre>
 <p>Here is what this query would look like as a JSON request:</p>
 <pre><code class="language-json">{
- &quot;query&quot;: &quot;query DroidQuery($droidId: String) { droid(id: $droidId) { id name } }&quot;,
+ &quot;query&quot;: &quot;query DroidQuery($droidId: String!) { droid(id: $droidId) { id name } }&quot;,
  &quot;variables&quot;: {
    &quot;droidId&quot;: &quot;1&quot;
  }
