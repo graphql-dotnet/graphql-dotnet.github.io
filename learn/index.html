@@ -23,8 +23,11 @@
             <li>
               <a href="/learn">Advanced Topics</a>
             </li>
+            <li>
+              <a href="/dataloader">DataLoader</a>
+            </li>
             <li><a href="/" title="GraphQL">Previous</a></li>
-            <li><a href="/getting-started" title="Getting Started">Next</a></li>
+            <li><a href="/dataloader" title="DataLoader">Next</a></li>
           </ul>
         </nav>
       </div>
@@ -144,6 +147,7 @@ container.Singleton(new StarWarsSchema(type =&gt; container.Get(type) as IGraphT
 });
 </code></pre>
 <h2 id="authentication-authorization">Authentication / Authorization</h2>
+<p>See the <a href="https://github.com/graphql-dotnet/authorization">Authorization</a> project for an implemenation of the following.</p>
 <p>You can write validation rules that will run before the query is executed.  You can use this pattern to check that the user is authenticated or has permissions for a specific field.  This example uses the <code>Metadata</code> dictionary available on Fields to set permissons per field.</p>
 <pre><code class="language-csharp">public class RequiresAuthValidationRule : IValidationRule
 {
@@ -268,46 +272,9 @@ It is also possilbe to use a theorical value for this (for example 2.0) to asses
 </code></pre>
 <p>Or simply put on average we will have <strong>2x Products</strong> each will have 1 Title for a total of <strong>2x Titles</strong> plus per each Product entry we will have 3 locations overriden by <code>first</code> argument (we follow relay's spec for <code>first</code>,<code>last</code> and <code>id</code> arguments) and each of these 3 locations have a lat and a long totalling <strong>6x Locations</strong> having <strong>6x lat</strong>s and <strong>6x longs</strong>.</p>
 <p>Now if we set the <code>avgImpact</code> to 2.0 and set the <code>MaxComplexity</code> to 23 (or higher) the query will execute correctly. If we change the <code>MaxComplexity</code> to something like 20 the DocumentExecutor will fail right after parsing the AST tree and will not attempt to resolve any of the fields (or talk to the database).</p>
-<h2 id="query-batching">Query Batching</h2>
-<p>Query batching allows you to make a single request to your data store instead of multiple requests.  This can also often be referred to as the <a href="http://stackoverflow.com/questions/97197/what-is-the-n1-selects-issue">&quot;N+1&quot;</a> problem.  One technique of accomplishing this is to have all of your resolvers return a <code>Task</code>, then resolve those tasks when the batch is complete.  Some projects provide features like <a href="http://jasperfx.github.io/marten/documentation/documents/querying/batched_queries/">Marten Batched Queries</a> that support this pattern.</p>
-<p>The trick is knowing when to execute the batched query.  GraphQL .NET provides the ability to add listeners in the execution pipeline.  Combined with a custom <code>UserContext</code> this makes executing the batch trivial.</p>
-<pre><code class="language-csharp">public class GraphQLUserContext
-{
-    // a Marten batched query
-    public IBatchedQuery Batch { get; set; }
-}
-
-var result = await executer.ExecuteAsync(_ =&gt;
-{
-    ...
-    _.UserContext = userContext;
-    _.Listeners.Add(new ExecuteBatchListener());
-});
-
-public class ExecuteBatchListener : DocumentExecutionListenerBase&lt;GraphQLUserContext&gt;
-{
-    public override async Task BeforeExecutionAwaitedAsync(
-        GraphQLUserContext userContext,
-        CancellationToken token)
-    {
-        await userContext.Batch.Execute(token);
-    }
-}
-
-// using the Batched Query in the field resolver
-Field&lt;ListGraphType&lt;DinnerType&gt;&gt;(
-    &quot;popularDinners&quot;,
-    resolve: context =&gt;
-    {
-        var userContext = context.UserContext.As&lt;GraphQLUserContext&gt;();
-        return userContext.Batch.Query(new FindPopularDinners());
-    });
-</code></pre>
-<h2 id="projects-attempting-to-solve-n1">Projects attempting to solve N+1</h2>
-<ul>
-<li><a href="http://jasperfx.github.io/marten/documentation/documents/querying/batched_queries/">Marten</a> - by Jeremy Miller, PostgreSQL</li>
-<li><a href="https://github.com/dlukez/graphql-dotnet-dataloader">GraphQL .NET DataLoader</a> by <a href="https://github.com/dlukez">Daniel Zimmermann</a></li>
-</ul>
+<h2 id="dataloader">DataLoader</h2>
+<p>GraphQL .NET includes an implementation of Facebook's <a href="https://github.com/facebook/dataloader">DataLoader</a>.</p>
+<p>Documentation is here: <a href="/dataloader">DataLoader</a></p>
 <h2 id="metrics">Metrics</h2>
 <p>Metrics are captured during execution.  This can help you determine performance issues within a resolver or validation.  Field metrics are captured using Field Middleware and the results are returned as a <code>PerfRecord</code> array on the <code>ExecutionResult</code>.  You can then generate a report from those records using <code>StatsReport</code>.</p>
 <pre><code class="language-csharp">var start = DateTime.UtcNow;
@@ -325,7 +292,7 @@ var report = StatsReport.From(schema, result.Operation, result.Perf, start);
           </div>
           <div>
             <a href="/">Previous - GraphQL</a>
-            <a href="/getting-started">Next - Getting Started</a>
+            <a href="/dataloader">Next - DataLoader</a>
           </div>
         </div>
       </div>

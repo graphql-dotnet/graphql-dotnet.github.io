@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>GraphQL - DataLoader</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="/content/prism.css" rel="stylesheet" type="text/css" />
+    <link href="/content/theme.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="banner">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">GraphQL</a>
+        </div>
+        <nav class="collapse navbar-collapse" role="navigation">
+          <ul class="nav navbar-nav pull-right">
+            <li>
+              <a href="/getting-started">Getting Started</a>
+            </li>
+            <li>
+              <a href="/learn">Advanced Topics</a>
+            </li>
+            <li>
+              <a href="/dataloader">DataLoader</a>
+            </li>
+            <li><a href="/learn" title="Advanced Topics">Previous</a></li>
+            <li><a href="/getting-started" title="Getting Started">Next</a></li>
+          </ul>
+        </nav>
+      </div>
+    </nav>
+    <div class="container">
+      <nav class="navbar-inverse">
+        <ol class="breadcrumb"><li><a href="/">GraphQL</a></li><li class="active">DataLoader</li></ol>
+      </nav>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div id="sidebar"></div>
+        </div>
+        <div class="col-md-9">
+          <h1>DataLoader</h1>
+          <div id="main-pane">
+            <!--Title:DataLoader-->
+<!--Url:dataloader-->
+<p>GraphQL .NET includes an implementation of Facebook's <a href="https://github.com/facebook/dataloader">DataLoader</a>.</p>
+<p>Consider a GraphQL query like this:</p>
+<pre><code>{
+	orders(date: &quot;2017-01-01&quot;) {
+		orderId
+		date
+		user {
+			userId
+			firstName
+			lastName
+		}
+	}
+}
+</code></pre>
+<p>When the query is executed, first a list of orders is fetched. Then for each order, the associated user must also be fetched. If each user is fetched one-by-one, this would get more inefficient as the number of orders (N) grows. This is known as the N+1 problem. If there are 50 orders (N = 50), 51 separate requests would be made to load this data.</p>
+<p>A DataLoader helps in two ways:</p>
+<ol>
+<li>Similar operations are batched together. This can make fetching data over a network much more efficient.</li>
+<li>Fetched values are cached so if they are requested again, the cached value is returned.</li>
+</ol>
+<p>In the example above, a using a DataLoader will allow us to batch together all of the requests for the users. So there would be 1 request to retrieve the list of orders and 1 request to load all users associated with those orders. This would always be a total of 2 requests rather than N+1.</p>
+<h2 id="setup">Setup</h2>
+<ol>
+<li>Register <code>IDataLoaderContextAccessor</code> in your IoC container.</li>
+<li>Register <code>DataLoaderDocumentListener</code> in your IoC container.</li>
+</ol>
+<pre><code class="language-csharp">services.AddSingleton&lt;IDataLoaderContextAccessor, DataLoaderContextAccessor&gt;();
+services.AddSingleton&lt;DataLoaderDocumentListener&gt;();
+</code></pre>
+<ol start="3">
+<li>Add the <code>DataLoaderDocumentListener</code> to the <code>DocumentExecuter</code>.</li>
+</ol>
+<pre><code class="language-csharp">var listener = Services.GetRequiredService&lt;DataLoaderDocumentListener&gt;();
+
+var executer = new DocumentExecuter();
+var result = executer.ExecuteAsync(opts =&gt; {
+
+	...
+
+	opts.Listeners.Add(listener);
+});
+</code></pre>
+<h2 id="usage">Usage</h2>
+<p>First, inject the <code>IDataLoaderContextAccessor</code> into your GraphQL type class.</p>
+<p>Then use the the <code>Context</code> property on the accessor to get the current <code>DataLoaderContext</code>. Each request will have its own context instance.</p>
+<p>Use one of the &quot;GetOrAddLoader&quot; methods on the <code>DataLoaderContext</code>. These methods all require a string key to uniquely identify each loader. They also require a delegate for fetching the data. Each method will get an existing loader or add a new one, identified by the string key. Each method has various overloads to support different ways to load and map data with the keys.</p>
+<p>Call <code>LoadAsync()</code> on the data loader. This will queue the request and return a <code>Task&lt;T&gt;</code>. If the result has already been cached, the task returned will already be completed.</p>
+<p>The <code>DataLoaderDocumentListener</code> configured in the set up steps above automatically handles dispatching all pending data loader operations at each step of the document execution.</p>
+<h2 id="examples">Examples</h2>
+<p>This is an example of using a DataLoader to batch requests for loading items by a key. <code>LoadAsync()</code> is called by the field resolver for each Order. <code>IUsersStore.GetUsersByIdAsync()</code> will be called with the batch of userIds that were requested.</p>
+<pre><code class="language-csharp">public class OrderType : ObjectGraphType&lt;Order&gt;
+{
+	// Inject the IDataLoaderContextAccessor to access the current DataLoaderContext
+    public OrderType(IDataLoaderContextAccessor accessor, IUsersStore users)
+    {
+        ...
+
+        Field&lt;UserType, User&gt;()
+            .Name(&quot;User&quot;)
+            .ResolveAsync(context =&gt;
+            {
+            	// Get or add a batch loader with the key &quot;GetUsersById&quot;
+            	// The loader will call GetUsersByIdAsync for each batch of keys
+                var loader = accessor.Context.GetOrAddBatchLoader&lt;int, User&gt;(&quot;GetUsersById&quot;, users.GetUsersByIdAsync);
+
+                // Add this UserId to the pending keys to fetch
+                // The task will complete once the GetUsersByIdAsync() returns with the batched results
+                return loader.LoadAsync(context.Source.UserId);
+            });
+    }
+}
+
+public interface IUsersStore
+{
+	// This will be called by the loader for all pending keys
+	// Note that fetch delegates can accept a CancellationToken parameter or not
+	Task&lt;Dictionary&lt;int, User&gt;&gt; GetUsersByIdAsync(IEnumerable&lt;int&gt; userIds, CancellationToken cancellationToken);
+}
+</code></pre>
+<p>This is an example of using a DataLoader to batch requests for loading a collection of items by a key. This is used when a key may be associated with more than one item. <code>LoadAsync()</code> is called by the field resolver for each User. A User can have zero to many Orders. <code>IOrdersStore.GetOrdersByUserIdAsync</code> will be called with a batch of userIds that have been requested.</p>
+<pre><code class="language-csharp">public class UserType : ObjectGraphType&lt;User&gt;
+{
+	// Inject the IDataLoaderContextAccessor to access the current DataLoaderContext
+    public UserType(IDataLoaderContextAccessor accessor, IOrdersStore orders)
+    {
+        ...
+
+        Field&lt;ListGraphType&lt;OrderType&gt;, IEnumerable&lt;Order&gt;&gt;()
+            .Name(&quot;Orders&quot;)
+            .ResolveAsync(ctx =&gt;
+            {
+            	// Get or add a collection batch loader with the key &quot;GetOrdersByUserId&quot;
+            	// The loader will call GetOrdersByUserIdAsync with a batch of keys
+                var ordersLoader = accessor.Context.GetOrAddCollectionBatchLoader&lt;int, Order&gt;(&quot;GetOrdersByUserId&quot;,
+                    orders.GetOrdersByUserIdAsync);
+
+                // Add this UserId to the pending keys to fetch data for
+                // The task will complete with an IEnumberable&lt;Order&gt; once the fetch delegate has returned
+                return ordersLoader.LoadAsync(ctx.Source.UserId);
+            });
+    }
+}
+
+public class OrdersStore : IOrdersStore
+{
+	public async Task&lt;ILookup&lt;int, Order&gt;&gt; GetOrdersByUserIdAsync(IEnumerable&lt;int&gt; userIds)
+	{
+		var orders = await ... // load data from database
+
+		return orders
+			.ToLookup(x =&gt; x.UserId);
+	}
+}
+
+</code></pre>
+<p>This is an example of using a DataLoader without batching. This could be useful if the data may be requested multiple times. The result will be cached the first time. Subsequent calls to <code>LoadAsync()</code> will return the cached result.</p>
+<pre><code class="language-csharp">public class QueryType : ObjectGraphType
+{
+	// Inject the IDataLoaderContextAccessor to access the current DataLoaderContext
+    public QueryType(IDataLoaderContextAccessor accessor, IUsersStore users)
+    {
+        Field&lt;ListGraphType&lt;UserType&gt;, IEnumerable&lt;User&gt;&gt;()
+            .Name(&quot;Users&quot;)
+            .Description(&quot;Get all Users&quot;)
+            .ResolveAsync(ctx =&gt;
+            {
+            	// Get or add a loader with the key &quot;GetAllUsers&quot;
+                var loader = accessor.Context.GetOrAddLoader(&quot;GetAllUsers&quot;,
+                    () =&gt; users.GetAllUsersAsync());
+
+                // Prepare the load operation
+                // If the result is cached, a completed Task&lt;IEnumerable&lt;User&gt;&gt; will be returned
+                return loader.LoadAsync();
+            });
+    }
+}
+
+public interface IUsersStore
+{
+	Task&lt;IEnumerable&lt;User&gt;&gt; GetAllUsersAsync();
+}
+</code></pre>
+
+          </div>
+          <div>
+            <a href="/learn">Previous - Advanced Topics</a>
+            <a href="/getting-started">Next - Getting Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/domready@1.0.8/ready.min.js"></script>
+    <script src="https://unpkg.com/axios@0.16.2/dist/axios.min.js"></script>
+    <script type="text/javascript" src="/content/prism.js"></script>
+    <script type="text/javascript" src="/content/bundle.js"></script>
+  </body>
+</html>
