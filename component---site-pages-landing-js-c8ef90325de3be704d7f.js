@@ -1,0 +1,2 @@
+webpackJsonp([95710047193689],{125:function(e,t,n){"use strict";function u(e){return e&&e.__esModule?e:{default:e}}t.__esModule=!0;var a=n(1),r=u(a),d=function(){return r.default.createElement("div",{style:{margin:"1.8rem auto"}},"Landing Page 2")};t.default=d,e.exports=t.default}});
+//# sourceMappingURL=component---site-pages-landing-js-c8ef90325de3be704d7f.js.map
