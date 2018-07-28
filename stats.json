@@ -13,8 +13,8 @@
       "path---docs-getting-started-metadata-3322fe220ac1368e3595.js.map"
     ],
     "path---docs-getting-started-variables": [
-      "path---docs-getting-started-variables-44a45c64ce918f5772a4.js",
-      "path---docs-getting-started-variables-44a45c64ce918f5772a4.js.map"
+      "path---docs-getting-started-variables-8532a83666c63bf138db.js",
+      "path---docs-getting-started-variables-8532a83666c63bf138db.js.map"
     ],
     "path---docs-getting-started-unions": [
       "path---docs-getting-started-unions-2115bd85851a3a31f56b.js",
@@ -25,16 +25,16 @@
       "path---docs-getting-started-malicious-queries-dd46714f9d02efb886c9.js.map"
     ],
     "path---": [
-      "path----955a71ffdf8c9dae07bc.js",
-      "path----955a71ffdf8c9dae07bc.js.map"
+      "path----4933a57d0a70583d631d.js",
+      "path----4933a57d0a70583d631d.js.map"
     ],
     "path---docs-guides-dataloader": [
-      "path---docs-guides-dataloader-343f2e3d4a679ebf5ec7.js",
-      "path---docs-guides-dataloader-343f2e3d4a679ebf5ec7.js.map"
+      "path---docs-guides-dataloader-0946ab70dbeff7855a91.js",
+      "path---docs-guides-dataloader-0946ab70dbeff7855a91.js.map"
     ],
     "path---docs-getting-started-relay": [
-      "path---docs-getting-started-relay-24b76cc3490c10affe19.js",
-      "path---docs-getting-started-relay-24b76cc3490c10affe19.js.map"
+      "path---docs-getting-started-relay-0e4730450cb6f9dc89c6.js",
+      "path---docs-getting-started-relay-0e4730450cb6f9dc89c6.js.map"
     ],
     "path---docs-getting-started-databases": [
       "path---docs-getting-started-databases-9b03d2b994623b03956a.js",
@@ -61,8 +61,8 @@
       "path---docs-getting-started-query-validation-c0fd8123ced32b4200ed.js.map"
     ],
     "component---src-layouts-index-js": [
-      "component---src-layouts-index-js-051fcc6564b57c7b9b48.js",
-      "component---src-layouts-index-js-051fcc6564b57c7b9b48.js.map"
+      "component---src-layouts-index-js-1416db316a587c534490.js",
+      "component---src-layouts-index-js-1416db316a587c534490.js.map"
     ],
     "path---docs-getting-started-mutations": [
       "path---docs-getting-started-mutations-6374ab751d84d778c4a7.js",
@@ -77,16 +77,20 @@
       "path---docs-getting-started-interfaces-3d0f0444a843451e6929.js.map"
     ],
     "path---docs-guides-links": [
-      "path---docs-guides-links-f7f3506e9d118ff8cb4d.js",
-      "path---docs-guides-links-f7f3506e9d118ff8cb4d.js.map"
+      "path---docs-guides-links-8f6d4115d63386c56344.js",
+      "path---docs-guides-links-8f6d4115d63386c56344.js.map"
     ],
     "path---index": [
       "path---index-6b1dcdab0a774a86ff50.js",
       "path---index-6b1dcdab0a774a86ff50.js.map"
     ],
     "path---docs-getting-started-queries": [
-      "path---docs-getting-started-queries-13ce64c13aedeebc626b.js",
-      "path---docs-getting-started-queries-13ce64c13aedeebc626b.js.map"
+      "path---docs-getting-started-queries-c762cb8c25d654fb6890.js",
+      "path---docs-getting-started-queries-c762cb8c25d654fb6890.js.map"
+    ],
+    "path---docs-getting-started-fragments": [
+      "path---docs-getting-started-fragments-2d6281916adb4e0e86ef.js",
+      "path---docs-getting-started-fragments-2d6281916adb4e0e86ef.js.map"
     ],
     "component---src-pages-404-js": [
       "component---src-pages-404-js-4503918ea3a16cfcdb75.js",
@@ -115,14 +119,22 @@
       "path---docs-getting-started-metrics-07be77620e99476f4de8.js.map"
     ],
     "path---docs-getting-started-introduction": [
-      "path---docs-getting-started-introduction-85edf225f8a74fd7a908.js",
-      "path---docs-getting-started-introduction-85edf225f8a74fd7a908.js.map"
+      "path---docs-getting-started-introduction-bd4d7fa47e2cff6f803b.js",
+      "path---docs-getting-started-introduction-bd4d7fa47e2cff6f803b.js.map"
+    ],
+    "path---docs-getting-started-aliases": [
+      "path---docs-getting-started-aliases-31268ab3a784e576c5d0.js",
+      "path---docs-getting-started-aliases-31268ab3a784e576c5d0.js.map"
     ],
     "app": [
-      "app-60ba55178ef6b2d8f423.js",
+      "app-728d0741d400484db9ec.js",
       "build-js-styles.css",
-      "app-60ba55178ef6b2d8f423.js.map",
+      "app-728d0741d400484db9ec.js.map",
       "build-js-styles.css.map"
+    ],
+    "path---docs-getting-started-directives": [
+      "path---docs-getting-started-directives-8a42753998670e0e1cdb.js",
+      "path---docs-getting-started-directives-8a42753998670e0e1cdb.js.map"
     ],
     "path---404": [
       "path---404-a0e39f21c11f6a62c5ab.js",
