@@ -17,8 +17,8 @@
       "path---docs-getting-started-variables-8532a83666c63bf138db.js.map"
     ],
     "path---docs-getting-started-unions": [
-      "path---docs-getting-started-unions-2115bd85851a3a31f56b.js",
-      "path---docs-getting-started-unions-2115bd85851a3a31f56b.js.map"
+      "path---docs-getting-started-unions-6629e67c1f5b1956ead6.js",
+      "path---docs-getting-started-unions-6629e67c1f5b1956ead6.js.map"
     ],
     "path---docs-getting-started-malicious-queries": [
       "path---docs-getting-started-malicious-queries-dd46714f9d02efb886c9.js",
@@ -37,8 +37,8 @@
       "path---docs-getting-started-relay-0e4730450cb6f9dc89c6.js.map"
     ],
     "path---docs-getting-started-databases": [
-      "path---docs-getting-started-databases-9b03d2b994623b03956a.js",
-      "path---docs-getting-started-databases-9b03d2b994623b03956a.js.map"
+      "path---docs-getting-started-databases-f82901f2c4ce4c40eb98.js",
+      "path---docs-getting-started-databases-f82901f2c4ce4c40eb98.js.map"
     ],
     "path---docs-getting-started-errors": [
       "path---docs-getting-started-errors-64fc76e46c002ff9075d.js",
@@ -115,8 +115,8 @@
       "path---404-html-a0e39f21c11f6a62c5ab.js.map"
     ],
     "path---docs-getting-started-metrics": [
-      "path---docs-getting-started-metrics-07be77620e99476f4de8.js",
-      "path---docs-getting-started-metrics-07be77620e99476f4de8.js.map"
+      "path---docs-getting-started-metrics-784750bce03e04172202.js",
+      "path---docs-getting-started-metrics-784750bce03e04172202.js.map"
     ],
     "path---docs-getting-started-introduction": [
       "path---docs-getting-started-introduction-d89c78cb1d945a250dd8.js",
@@ -149,8 +149,8 @@
       "path---docs-getting-started-authorization-fa6024038f644abaa923.js.map"
     ],
     "path---docs-getting-started-subscriptions": [
-      "path---docs-getting-started-subscriptions-ec355d7c2d9c1cd3fa78.js",
-      "path---docs-getting-started-subscriptions-ec355d7c2d9c1cd3fa78.js.map"
+      "path---docs-getting-started-subscriptions-8dd98759576563aca7af.js",
+      "path---docs-getting-started-subscriptions-8dd98759576563aca7af.js.map"
     ]
   }
 }
