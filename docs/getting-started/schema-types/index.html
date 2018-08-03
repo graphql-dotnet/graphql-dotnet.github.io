@@ -1,0 +1,214 @@
+<!DOCTYPE html><html><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><link rel="preload" href="/component---src-layouts-index-js-94100963b1fd56718611.js" as="script"/><link rel="preload" href="/component---src-templates-docs-page-js-8e21cb098d5f49b9ad94.js" as="script"/><link rel="preload" href="/path---docs-getting-started-schema-types-f015a6bfa491b1a01ba5.js" as="script"/><link rel="preload" href="/app-5ad0dd5806a8cb6dc777.js" as="script"/><link rel="preload" href="/commons-98b0a0ce2e8878e93b7b.js" as="script"/><title data-react-helmet="true">GraphQL .NET</title><meta data-react-helmet="true" name="description" content="GraphQL for .NET"/><meta data-react-helmet="true" name="keywords" content="graphql,api,web api,.net,.net core"/><style type="text/css">
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var offset = element.offsetTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><style id="gatsby-inlined-css">html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block}audio:not([controls]){display:none;height:0}progress{vertical-align:baseline}[hidden],template{display:none}a{background-color:transparent;-webkit-text-decoration-skip:objects}a:active,a:hover{outline-width:0}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit;font-weight:bolder}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}svg:not(:root){overflow:hidden}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}button,input,optgroup,select,textarea{font:inherit;margin:0}optgroup{font-weight:700}button,input{overflow:visible}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-input-placeholder{color:inherit;opacity:.54}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}html{font:112.5%/1.45em georgia,serif;box-sizing:border-box;overflow-y:scroll}*,:after,:before{box-sizing:inherit}body{color:rgba(0,0,0,.8);font-family:georgia,serif;font-weight:400;word-wrap:break-word;-webkit-font-kerning:normal;font-kerning:normal;-ms-font-feature-settings:"kern","liga","clig","calt";-webkit-font-feature-settings:"kern","liga","clig","calt";font-feature-settings:"kern","liga","clig","calt","kern"}img{max-width:100%;margin:0 0 1.45rem;padding:0}h1{font-size:2.25rem}h1,h2{margin:0 0 1.45rem;padding:0;color:inherit;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;font-weight:700;text-rendering:optimizeLegibility;line-height:1.1}h2{font-size:1.62671rem}h3{font-size:1.38316rem}h3,h4{margin:0 0 1.45rem;padding:0;color:inherit;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;font-weight:700;text-rendering:optimizeLegibility;line-height:1.1}h4{font-size:1rem}h5{font-size:.85028rem}h5,h6{margin:0 0 1.45rem;padding:0;color:inherit;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;font-weight:700;text-rendering:optimizeLegibility;line-height:1.1}h6{font-size:.78405rem}hgroup{margin:0 0 1.45rem;padding:0}ol,ul{margin:0 0 1.45rem 1.45rem;padding:0;list-style-position:outside;list-style-image:none}dd,dl,figure,p{margin:0 0 1.45rem;padding:0}pre{padding:0;font-size:.85rem;line-height:1.42;background:rgba(0,0,0,.04);border-radius:3px;overflow:auto;word-wrap:normal;padding:1.45rem}pre,table{margin:0 0 1.45rem}table{padding:0;font-size:1rem;line-height:1.45rem;border-collapse:collapse;width:100%}fieldset{margin:0 0 1.45rem;padding:0}blockquote{margin:0 1.45rem 1.45rem;padding:0}form,iframe,noscript{margin:0 0 1.45rem;padding:0}hr{margin:0 0 calc(1.45rem - 1px);padding:0;background:rgba(0,0,0,.2);border:none;height:1px}address{margin:0 0 1.45rem;padding:0}b,dt,strong,th{font-weight:700}li{margin-bottom:.725rem}ol li,ul li{padding-left:0}li>ol,li>ul{margin-left:1.45rem;margin-bottom:.725rem;margin-top:.725rem}blockquote :last-child,li :last-child,p :last-child{margin-bottom:0}li>p{margin-bottom:.725rem}code,kbd,samp{font-size:.85rem;line-height:1.45rem}abbr,abbr[title],acronym{border-bottom:1px dotted rgba(0,0,0,.5);cursor:help}abbr[title]{text-decoration:none}td,th,thead{text-align:left}td,th{border-bottom:1px solid rgba(0,0,0,.12);font-feature-settings:"tnum";-moz-font-feature-settings:"tnum";-ms-font-feature-settings:"tnum";-webkit-font-feature-settings:"tnum";padding:.725rem .96667rem calc(.725rem - 1px)}td:first-child,th:first-child{padding-left:0}td:last-child,th:last-child{padding-right:0}code,tt{background-color:rgba(0,0,0,.04);border-radius:3px;font-family:SFMono-Regular,Consolas,Roboto Mono,Droid Sans Mono,Liberation Mono,Menlo,Courier,monospace;padding:0;padding-top:.2em;padding-bottom:.2em}pre code{background:none;line-height:1.42}code:after,code:before,tt:after,tt:before{letter-spacing:-.2em;content:" "}pre code:after,pre code:before,pre tt:after,pre tt:before{content:""}@media only screen and (max-width:480px){html{font-size:100%}}code[class*=language-],pre[class*=language-]{color:#657b83;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}code[class*=language-]::-moz-selection,code[class*=language-] ::-moz-selection,pre[class*=language-]::-moz-selection,pre[class*=language-] ::-moz-selection{background:#073642}code[class*=language-]::selection,code[class*=language-] ::selection,pre[class*=language-]::selection,pre[class*=language-] ::selection{background:#073642}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;border-radius:.3em}:not(pre)>code[class*=language-],pre[class*=language-]{background-color:#fdf6e3}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#93a1a1}.token.punctuation{color:#586e75}.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#268bd2}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string,.token.url{color:#2aa198}.token.entity{color:#657b83;background:#eee8d5}.token.atrule,.token.attr-value,.token.keyword{color:#859900}.token.class-name,.token.function{color:#b58900}.token.important,.token.regex,.token.variable{color:#cb4b16}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}html{color:#2c3e50}body,html{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-size:16px;overflow:auto}body{margin:0}#___gatsby{overflow:auto}ul{padding:0}li,ul{margin:0}a{color:#3eaf7c;text-decoration:underline}.header{height:60px;border-bottom:1px solid #eaecef}.header ul{padding:20px}.header li{list-style:none;display:inline-block;padding:0 12px}.header li a{color:#2c3e50;text-decoration:none}.footer{height:60px}.footer,.header{-ms-flex:none;flex:none}.page-body{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;height:calc(100% - 60px)}.content{height:100%;width:100%;overflow-y:hidden;overflow-x:hidden;padding:2em}.content ul{margin:20px 0}.content ul li{margin:0 0 0 30px}.content blockquote{padding:30px;border-left:7px solid #eaecef;margin:0 0 1.45rem}.content pre{margin-bottom:1.45rem}.content-body,.content-toolbar{margin:0 auto;max-width:740px}.content-toolbar{padding:1rem 0}.nav{padding-top:2rem;-ms-flex-order:1;order:1;overflow-y:inherit;overflow-x:hidden;-ms-flex-positive:1;flex-grow:1;border:0;min-width:18rem}.nav li{list-style:none}.nav li span{padding:.25rem 1rem .25rem 1.5rem;font-weight:600;display:block}.nav ul{margin-bottom:15px}.nav ul a{color:#2c3e50;padding:.25rem 1rem .25rem 1.25rem;border-left:.25rem solid transparent;display:inline-block;text-decoration:none;line-height:1.4}.nav ul a:hover{color:#3eaf7c}.nav ul a.active{color:#3eaf7c;border-left:.25rem solid #3eaf7c;text-decoration:none}@media (min-width:768px){#___gatsby,body,html{height:100%;overflow-y:hidden}.page-body{-ms-flex-direction:row;flex-direction:row}.content{overflow-y:auto}.ads,.nav{-ms-flex-order:-1;order:-1}.nav{overflow-y:auto;border-right:1px solid #eaecef}}.landing{margin:1.8rem auto}</style></head><body><div id="___gatsby"><nav class="header"><ul><li><a href="/">GraphQL .NET</a></li><li><a href="/docs/getting-started/introduction">Docs</a></li><li><a href="https://github.com/graphql-dotnet/graphql-dotnet" rel="noopener noreferrer" target="_blank">GitHub</a></li></ul></nav><div class="page-body"><div class="content"><article class="content-body"><h1 id="schema-types"><a href="#schema-types" aria-hidden="true" class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Schema Types</h1>
+<h2 id="scalars"><a href="#scalars" aria-hidden="true" class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scalars</h2>
+<p>A GraphQL object type has a name and fields, but at some point those fields have to resolve to some concrete data. That's where the scalar types come in: they represent the leaves of the query.</p>
+<p>These are the scalars provided by the GraphQL Specificiation.  You can extend your schema with your own custom scalars.</p>
+<table>
+<thead>
+<tr>
+<th>GraphQL</th>
+<th>GraphQL .NET</th>
+<th>.NET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-text">String</code></td>
+<td><code class="language-text">StringGraphType</code></td>
+<td><code class="language-text">string</code></td>
+</tr>
+<tr>
+<td><code class="language-text">Int</code></td>
+<td><code class="language-text">IntGraphType</code></td>
+<td><code class="language-text">int</code>
+ 
+<code class="language-text">long</code></td>
+</tr>
+<tr>
+<td><code class="language-text">Float</code></td>
+<td><code class="language-text">FloatGraphType</code></td>
+<td><code class="language-text">double</code></td>
+</tr>
+<tr>
+<td><code class="language-text">Boolean</code></td>
+<td><code class="language-text">BooleanGraphType</code></td>
+<td><code class="language-text">bool</code></td>
+</tr>
+<tr>
+<td><code class="language-text">ID</code></td>
+<td><code class="language-text">IdGraphType</code></td>
+<td><code class="language-text">int</code>
+, 
+<code class="language-text">long</code>
+, 
+<code class="language-text">string</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Note that you can use a <code class="language-text">Guid</code> with <code class="language-text">ID</code>.  It will just be serialized to a <code class="language-text">string</code> and should be sent to your GraphQL Server as a <code class="language-text">string</code>.</p>
+</blockquote>
+<p>These are additional scalars provided by this project.</p>
+<table>
+<thead>
+<tr>
+<th>GraphQL</th>
+<th>GraphQL .NET</th>
+<th>.NET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-text">Date</code></td>
+<td><code class="language-text">DateGraphType</code></td>
+<td><code class="language-text">DateTime</code></td>
+</tr>
+<tr>
+<td><code class="language-text">DateTime</code></td>
+<td><code class="language-text">DateTimeGraphType</code></td>
+<td><code class="language-text">DateTime</code></td>
+</tr>
+<tr>
+<td><code class="language-text">DateTimeOffSet</code></td>
+<td><code class="language-text">DateTimeOffsetGraphType</code></td>
+<td><code class="language-text">DateTimeOffset</code></td>
+</tr>
+<tr>
+<td><code class="language-text">Seconds</code></td>
+<td><code class="language-text">TimeSpanSecondsGraphType</code></td>
+<td><code class="language-text">TimeSpan</code></td>
+</tr>
+<tr>
+<td><code class="language-text">Milliseconds</code></td>
+<td><code class="language-text">TimeSpanMillisecondsGraphType</code></td>
+<td><code class="language-text">TimeSpan</code></td>
+</tr>
+</tbody>
+</table>
+<p>Lists of data are also supported with any Scalar or Object types.</p>
+<table>
+<thead>
+<tr>
+<th>GraphQL</th>
+<th>GraphQL .NET</th>
+<th>.NET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-text">[String]</code></td>
+<td><code class="language-text">ListGraphType&lt;StringGraphType&gt;</code></td>
+<td><code class="language-text">List&lt;string&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="objects"><a href="#objects" aria-hidden="true" class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Objects</h2>
+<p>Objects are composed of scalar types and other objects.</p>
+<p><strong>GraphQL</strong></p>
+<div class="gatsby-highlight" data-language="graphql">
+      <pre class="language-graphql"><code class="language-graphql">type Droid <span class="token punctuation">{</span>
+  <span class="token attr-name">name</span><span class="token punctuation">:</span> String
+  <span class="token attr-name">appearsIn</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Episode<span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
+      </div>
+<p><strong>GraphQL .NET</strong></p>
+<div class="gatsby-highlight" data-language="csharp">
+      <pre class="language-csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DroidType</span> <span class="token punctuation">:</span> <span class="token class-name">ObjectGraphType</span><span class="token operator">&lt;</span>Droid<span class="token operator">></span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token function">DroidType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        Name <span class="token operator">=</span> <span class="token string">"Droid"</span><span class="token punctuation">;</span>
+        Description <span class="token operator">=</span> <span class="token string">"A mechanical creature in the Star Wars universe."</span><span class="token punctuation">;</span>
+        <span class="token function">Field</span><span class="token punctuation">(</span>d <span class="token operator">=</span><span class="token operator">></span> d<span class="token punctuation">.</span>Name<span class="token punctuation">,</span> nullable<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Description</span><span class="token punctuation">(</span><span class="token string">"The name of the droid."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Field<span class="token operator">&lt;</span>ListGraphType<span class="token operator">&lt;</span>EpisodeEnum<span class="token operator">></span><span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"appearsIn"</span><span class="token punctuation">,</span> <span class="token string">"Which movie they appear in."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+      </div>
+<p><strong>.NET</strong></p>
+<div class="gatsby-highlight" data-language="csharp">
+      <pre class="language-csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Droid</span>
+<span class="token punctuation">{</span>
+  <span class="token keyword">public</span> <span class="token keyword">string</span> Name <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> List<span class="token operator">&lt;</span>Episode<span class="token operator">></span> AppearsIn <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+      </div>
+<h2 id="enumerations"><a href="#enumerations" aria-hidden="true" class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enumerations</h2>
+<p><strong>GraphQL</strong></p>
+<div class="gatsby-highlight" data-language="graphql">
+      <pre class="language-graphql"><code class="language-graphql">enum Episode <span class="token punctuation">{</span>
+  NEWHOPE
+  EMPIRE
+  JEDI
+<span class="token punctuation">}</span></code></pre>
+      </div>
+<p><strong>GraphQL .NET</strong></p>
+<p>You can manually create the <code class="language-text">EnumerationGraphType</code>.</p>
+<div class="gatsby-highlight" data-language="csharp">
+      <pre class="language-csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">EpisodeEnum</span> <span class="token punctuation">:</span> <span class="token class-name">EnumerationGraphType</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token function">EpisodeEnum</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        Name <span class="token operator">=</span> <span class="token string">"Episode"</span><span class="token punctuation">;</span>
+        Description <span class="token operator">=</span> <span class="token string">"One of the films in the Star Wars Trilogy."</span><span class="token punctuation">;</span>
+        <span class="token function">AddValue</span><span class="token punctuation">(</span><span class="token string">"NEWHOPE"</span><span class="token punctuation">,</span> <span class="token string">"Released in 1977."</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">AddValue</span><span class="token punctuation">(</span><span class="token string">"EMPIRE"</span><span class="token punctuation">,</span> <span class="token string">"Released in 1980."</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">AddValue</span><span class="token punctuation">(</span><span class="token string">"JEDI"</span><span class="token punctuation">,</span> <span class="token string">"Released in 1983."</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+      </div>
+<p>Or you can use the generic version passing it a .NET <code class="language-text">enum</code> which will populate the values for you (excluding description).  The <code class="language-text">Name</code> will default to the .NET Type name, which you can override in the constructor.</p>
+<div class="gatsby-highlight" data-language="csharp">
+      <pre class="language-csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">EpisodeEnum</span> <span class="token punctuation">:</span> <span class="token class-name">EnumerationGraphType</span><span class="token operator">&lt;</span>Episodes<span class="token operator">></span>
+<span class="token punctuation">{</span>
+<span class="token punctuation">}</span></code></pre>
+      </div>
+<p><strong>.NET</strong></p>
+<div class="gatsby-highlight" data-language="csharp">
+      <pre class="language-csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">enum</span> Episodes
+<span class="token punctuation">{</span>
+    NEWHOPE  <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">,</span>
+    EMPIRE  <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span>
+    JEDI  <span class="token operator">=</span> <span class="token number">6</span>
+<span class="token punctuation">}</span></code></pre>
+      </div></article><div class="content-toolbar"><a href="https://github.com/graphql-dotnet/graphql-dotnet/edit/master/docs2/site/docs/getting-started/schema-types.md" rel="noopener noreferrer" target="_blank">Edit this page on GitHub</a></div></div><div class="nav"><nav><ul><li><span>Getting Started</span><nav><ul><li><a class="" href="/docs/getting-started/introduction">Introduction</a></li><li><a class="" href="/docs/getting-started/installation">Installation</a></li><li><a class="" href="/docs/getting-started/graphiql">GraphiQL</a></li><li><a class="" href="/docs/getting-started/queries">Queries</a></li><li><a class="active" href="/docs/getting-started/schema-types">Schema Types</a></li><li><a class="" href="/docs/getting-started/lists-non-null">Lists and Non-Null</a></li><li><a class="" href="/docs/getting-started/arguments">Arguments</a></li><li><a class="" href="/docs/getting-started/aliases">Aliases</a></li><li><a class="" href="/docs/getting-started/fragments">Fragments</a></li><li><a class="" href="/docs/getting-started/variables">Variables</a></li><li><a class="" href="/docs/getting-started/directives">Directives</a></li><li><a class="" href="/docs/getting-started/mutations">Mutations</a></li><li><a class="" href="/docs/getting-started/interfaces">Interfaces</a></li><li><a class="" href="/docs/getting-started/unions">Unions</a></li><li><a class="" href="/docs/getting-started/subscriptions">Subscriptions</a></li><li><a class="" href="/docs/getting-started/query-validation">Query Validation</a></li><li><a class="" href="/docs/getting-started/query-organization">Query Organization</a></li><li><a class="" href="/docs/getting-started/user-context">User Context</a></li><li><a class="" href="/docs/getting-started/errors">Error Handling</a></li><li><a class="" href="/docs/getting-started/dependency-injection">Dependency Injection</a></li><li><a class="" href="/docs/getting-started/databases">Databases</a></li><li><a class="" href="/docs/getting-started/malicious-queries">Malicious Queries</a></li><li><a class="" href="/docs/getting-started/metadata">Object/Field Metadata</a></li><li><a class="" href="/docs/getting-started/field-middleware">Field Middleware</a></li><li><a class="" href="/docs/getting-started/metrics">Metrics</a></li><li><a class="" href="/docs/getting-started/authorization">Authorization</a></li><li><a class="" href="/docs/getting-started/relay">Relay</a></li></ul></nav></li><li><span>Guides</span><nav><ul><li><a class="" href="/docs/guides/dataloader">Dataloader</a></li><li><a class="" href="/docs/guides/schema-generation">Schema Generation</a></li><li><a class="" href="/docs/guides/migration">Version Migration Guide</a></li><li><a class="" href="/docs/guides/links">Links</a></li></ul></nav></li></ul></nav></div></div></div><script id="webpack-manifest">/*<![CDATA[*/window.webpackManifest={"231608221292675":"app-5ad0dd5806a8cb6dc777.js","95710047193689":"component---site-pages-landing-js-7a04f3721ec3f8b3df00.js","28613242278168":"component---src-templates-docs-page-js-8e21cb098d5f49b9ad94.js","162898551421021":"component---src-pages-404-js-dafbfbd345a265f9fe6e.js","60335399758886":"path----9f453accd19127631a0e.js","142629428675168":"path---index-6b1dcdab0a774a86ff50.js","194669561623365":"path---docs-getting-started-introduction-6989fcb8f42e6bf8e016.js","7936910712040":"path---docs-getting-started-installation-246432e807ba7f764e9c.js","86643674157860":"path---docs-getting-started-graphiql-e88770388c48b572f98e.js","143391023720279":"path---docs-getting-started-queries-cbdcd7c2ae745e5bb34a.js","202354100065884":"path---docs-getting-started-schema-types-f015a6bfa491b1a01ba5.js","56185524266781":"path---docs-getting-started-lists-non-null-7b8727ecf5bca2c31e81.js","76576268814232":"path---docs-getting-started-arguments-27bc67313ae58f8ef609.js","202043887933404":"path---docs-getting-started-aliases-970678eb3f754e71cb5c.js","157702184900489":"path---docs-getting-started-fragments-cd7b65d00368008ebd7d.js","44712706562510":"path---docs-getting-started-variables-d7a8493cd65aae6b6b98.js","244442750240678":"path---docs-getting-started-directives-3b9fbee93498514664f3.js","114361466534084":"path---docs-getting-started-mutations-a08c119333257cf26a58.js","133838580703967":"path---docs-getting-started-interfaces-5472b1b1cf12268763e1.js","53220472400125":"path---docs-getting-started-unions-2a11c19b832c132f42eb.js","278627754389952":"path---docs-getting-started-subscriptions-228f784be890898de108.js","107167650384582":"path---docs-getting-started-query-validation-37ab14714d08e06743b8.js","11491794978075":"path---docs-getting-started-query-organization-fefbbf0bea9a8442e53a.js","171719905287791":"path---docs-getting-started-user-context-e747d9fa57933a411827.js","75494656540334":"path---docs-getting-started-errors-192f569712ddfa2502e9.js","178698305269250":"path---docs-getting-started-dependency-injection-ae4f2978fc6338b457ec.js","75420749601626":"path---docs-getting-started-databases-36d393c82a07ad8d136c.js","55192516056771":"path---docs-getting-started-malicious-queries-85c9e5f6c8b5f711eefa.js","33904618880309":"path---docs-getting-started-metadata-f2b218fd7b2ad861cb88.js","131465737246961":"path---docs-getting-started-field-middleware-28052d25a0224d2dc184.js","185577185973635":"path---docs-getting-started-metrics-7a8c5d02573ef44500b6.js","271764429786961":"path---docs-getting-started-authorization-575c21f267d4e733a665.js","71981178235569":"path---docs-getting-started-relay-5e879e7339f63f96088d.js","67274500541493":"path---docs-guides-dataloader-b3bd4c9cefebe47471f5.js","254760750072238":"path---docs-guides-schema-generation-8f4b570577f2daa82f5e.js","106107788062337":"path---docs-guides-migration-b5f75be3856dd0cf6898.js","139372590924694":"path---docs-guides-links-378d2e280bf11c7b4d38.js","254022195166212":"path---404-a0e39f21c11f6a62c5ab.js","178698757827068":"path---404-html-a0e39f21c11f6a62c5ab.js","114276838955818":"component---src-layouts-index-js-94100963b1fd56718611.js"}/*]]>*/</script><script>/*<![CDATA[*/["/commons-98b0a0ce2e8878e93b7b.js","/app-5ad0dd5806a8cb6dc777.js","/path---docs-getting-started-schema-types-f015a6bfa491b1a01ba5.js","/component---src-templates-docs-page-js-8e21cb098d5f49b9ad94.js","/component---src-layouts-index-js-94100963b1fd56718611.js"].forEach(function(s){document.write('<script src="'+s+'" defer></'+'script>')})/*]]>*/</script></body></html>
