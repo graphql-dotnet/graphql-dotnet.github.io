@@ -81,8 +81,8 @@
       "path---docs-getting-started-query-validation-1dc7f4894f573c17cf29.js.map"
     ],
     "component---src-layouts-index-js": [
-      "component---src-layouts-index-js-d01cbe269cb91bad193d.js",
-      "component---src-layouts-index-js-d01cbe269cb91bad193d.js.map"
+      "component---src-layouts-index-js-43a38872b1959fd73ef9.js",
+      "component---src-layouts-index-js-43a38872b1959fd73ef9.js.map"
     ],
     "path---docs-getting-started-mutations": [
       "path---docs-getting-started-mutations-31d122d1963e5c1566e1.js",
@@ -117,9 +117,9 @@
       "component---src-pages-404-js-dafbfbd345a265f9fe6e.js.map"
     ],
     "commons": [
-      "commons-3d8b7cf4e7efb89a8d7f.js",
+      "commons-a7cf6837d3c24c1c9d2a.js",
       "build-js-styles.css",
-      "commons-3d8b7cf4e7efb89a8d7f.js.map",
+      "commons-a7cf6837d3c24c1c9d2a.js.map",
       "build-js-styles.css.map"
     ],
     "path---docs-getting-started-user-context": [
@@ -151,9 +151,9 @@
       "path---docs-getting-started-schema-types-ecefa6a153a637794759.js.map"
     ],
     "app": [
-      "app-53504ff3c508ee011175.js",
+      "app-9cceb391a30b464032ce.js",
       "build-js-styles.css",
-      "app-53504ff3c508ee011175.js.map",
+      "app-9cceb391a30b464032ce.js.map",
       "build-js-styles.css.map"
     ],
     "path---docs-getting-started-directives": [
