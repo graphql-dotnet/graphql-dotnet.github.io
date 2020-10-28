@@ -16,6 +16,10 @@
       "path---docs-getting-started-metadata-5bc64edd35be55467776.js",
       "path---docs-getting-started-metadata-5bc64edd35be55467776.js.map"
     ],
+    "path---docs-guides-migration-2": [
+      "path---docs-guides-migration-2-7fc5fc66c128ca7cdb4e.js",
+      "path---docs-guides-migration-2-7fc5fc66c128ca7cdb4e.js.map"
+    ],
     "path---docs-guides-migration-3": [
       "path---docs-guides-migration-3-51237266581aaf1f8855.js",
       "path---docs-guides-migration-3-51237266581aaf1f8855.js.map"
@@ -23,6 +27,10 @@
     "path---docs-getting-started-variables": [
       "path---docs-getting-started-variables-881e25a2845d5f570572.js",
       "path---docs-getting-started-variables-881e25a2845d5f570572.js.map"
+    ],
+    "path---docs-guides-v-0110": [
+      "path---docs-guides-v-0110-2e50db3217d9c9a33799.js",
+      "path---docs-guides-v-0110-2e50db3217d9c9a33799.js.map"
     ],
     "path---docs-getting-started-unions": [
       "path---docs-getting-started-unions-725134ae5f06fb921687.js",
@@ -41,8 +49,8 @@
       "path---docs-getting-started-lists-non-null-92bcd8f246274c9c4b6f.js.map"
     ],
     "path---": [
-      "path----6cb26bbd803760e45b15.js",
-      "path----6cb26bbd803760e45b15.js.map"
+      "path----a26897f4222c7da4ad36.js",
+      "path----a26897f4222c7da4ad36.js.map"
     ],
     "path---docs-guides-dataloader": [
       "path---docs-guides-dataloader-c8a7201e2f216c5221e4.js",
@@ -72,17 +80,13 @@
       "component---site-pages-landing-js-7a04f3721ec3f8b3df00.js",
       "component---site-pages-landing-js-7a04f3721ec3f8b3df00.js.map"
     ],
-    "path---docs-guides-migration": [
-      "path---docs-guides-migration-3acf494ff51ff1c5f6c5.js",
-      "path---docs-guides-migration-3acf494ff51ff1c5f6c5.js.map"
-    ],
     "path---docs-getting-started-query-validation": [
       "path---docs-getting-started-query-validation-ef439a110171011807ef.js",
       "path---docs-getting-started-query-validation-ef439a110171011807ef.js.map"
     ],
     "component---src-layouts-index-js": [
-      "component---src-layouts-index-js-6827beba0a725df31d94.js",
-      "component---src-layouts-index-js-6827beba0a725df31d94.js.map"
+      "component---src-layouts-index-js-85de4f221b6b98b27f33.js",
+      "component---src-layouts-index-js-85de4f221b6b98b27f33.js.map"
     ],
     "path---docs-getting-started-mutations": [
       "path---docs-getting-started-mutations-a55cd815b5a38fcb70cd.js",
@@ -151,10 +155,14 @@
       "path---docs-getting-started-schema-types-ecefa6a153a637794759.js.map"
     ],
     "app": [
-      "app-c0cd7974020b214cfae8.js",
+      "app-70c4a7486c0f74b7499a.js",
       "build-js-styles.css",
-      "app-c0cd7974020b214cfae8.js.map",
+      "app-70c4a7486c0f74b7499a.js.map",
       "build-js-styles.css.map"
+    ],
+    "path---docs-guides-v-080": [
+      "path---docs-guides-v-080-2651a6bff4e246237482.js",
+      "path---docs-guides-v-080-2651a6bff4e246237482.js.map"
     ],
     "path---docs-getting-started-directives": [
       "path---docs-getting-started-directives-b2c6ea0620a910b34703.js",
