@@ -16,14 +16,6 @@
       "path---docs-getting-started-metadata-5bc64edd35be55467776.js",
       "path---docs-getting-started-metadata-5bc64edd35be55467776.js.map"
     ],
-    "path---docs-guides-migration-2": [
-      "path---docs-guides-migration-2-7fc5fc66c128ca7cdb4e.js",
-      "path---docs-guides-migration-2-7fc5fc66c128ca7cdb4e.js.map"
-    ],
-    "path---docs-guides-migration-3": [
-      "path---docs-guides-migration-3-51237266581aaf1f8855.js",
-      "path---docs-guides-migration-3-51237266581aaf1f8855.js.map"
-    ],
     "path---docs-getting-started-variables": [
       "path---docs-getting-started-variables-881e25a2845d5f570572.js",
       "path---docs-getting-started-variables-881e25a2845d5f570572.js.map"
@@ -45,8 +37,8 @@
       "path---docs-getting-started-lists-non-null-92bcd8f246274c9c4b6f.js.map"
     ],
     "path---": [
-      "path----7879962d6618cde1b0e4.js",
-      "path----7879962d6618cde1b0e4.js.map"
+      "path----0851f5524e4292f09358.js",
+      "path----0851f5524e4292f09358.js.map"
     ],
     "path---docs-guides-dataloader": [
       "path---docs-guides-dataloader-c8a7201e2f216c5221e4.js",
@@ -72,6 +64,10 @@
       "path---docs-getting-started-graphiql-8b8b4f0dc9813b55511d.js",
       "path---docs-getting-started-graphiql-8b8b4f0dc9813b55511d.js.map"
     ],
+    "path---docs-migrations-migration-2": [
+      "path---docs-migrations-migration-2-12e6d729190fab470be4.js",
+      "path---docs-migrations-migration-2-12e6d729190fab470be4.js.map"
+    ],
     "component---site-pages-landing-js": [
       "component---site-pages-landing-js-7a04f3721ec3f8b3df00.js",
       "component---site-pages-landing-js-7a04f3721ec3f8b3df00.js.map"
@@ -81,16 +77,16 @@
       "path---docs-getting-started-query-validation-ef439a110171011807ef.js.map"
     ],
     "component---src-layouts-index-js": [
-      "component---src-layouts-index-js-e51fb2f1b8b0a7e3cbfb.js",
-      "component---src-layouts-index-js-e51fb2f1b8b0a7e3cbfb.js.map"
+      "component---src-layouts-index-js-b9af674f2a765e30ba10.js",
+      "component---src-layouts-index-js-b9af674f2a765e30ba10.js.map"
     ],
     "path---docs-getting-started-mutations": [
       "path---docs-getting-started-mutations-a55cd815b5a38fcb70cd.js",
       "path---docs-getting-started-mutations-a55cd815b5a38fcb70cd.js.map"
     ],
-    "path---docs-guides-v-0-11-0": [
-      "path---docs-guides-v-0-11-0-51e62cdba0904c362ba4.js",
-      "path---docs-guides-v-0-11-0-51e62cdba0904c362ba4.js.map"
+    "path---docs-migrations-v-0-11-0": [
+      "path---docs-migrations-v-0-11-0-01168be7b5afd6aad3b0.js",
+      "path---docs-migrations-v-0-11-0-01168be7b5afd6aad3b0.js.map"
     ],
     "path---docs-getting-started-field-middleware": [
       "path---docs-getting-started-field-middleware-0bb961a910e1b32bb8c4.js",
@@ -99,10 +95,6 @@
     "path---docs-getting-started-interfaces": [
       "path---docs-getting-started-interfaces-9012dc660e6ec9ff4987.js",
       "path---docs-getting-started-interfaces-9012dc660e6ec9ff4987.js.map"
-    ],
-    "path---docs-guides-v-0-8-0": [
-      "path---docs-guides-v-0-8-0-dba3a3dfe1cc2c8348a7.js",
-      "path---docs-guides-v-0-8-0-dba3a3dfe1cc2c8348a7.js.map"
     ],
     "path---docs-guides-links": [
       "path---docs-guides-links-df7859cc2ddfda869415.js",
@@ -130,6 +122,10 @@
       "commons-a7cf6837d3c24c1c9d2a.js.map",
       "build-js-styles.css.map"
     ],
+    "path---docs-migrations-migration-3": [
+      "path---docs-migrations-migration-3-99cfb9438cbafad04146.js",
+      "path---docs-migrations-migration-3-99cfb9438cbafad04146.js.map"
+    ],
     "path---docs-getting-started-user-context": [
       "path---docs-getting-started-user-context-d505903df60544ce397d.js",
       "path---docs-getting-started-user-context-d505903df60544ce397d.js.map"
@@ -141,6 +137,10 @@
     "path---404-html": [
       "path---404-html-a0e39f21c11f6a62c5ab.js",
       "path---404-html-a0e39f21c11f6a62c5ab.js.map"
+    ],
+    "path---docs-migrations-v-0-8-0": [
+      "path---docs-migrations-v-0-8-0-711ed55bd1278e1d6a97.js",
+      "path---docs-migrations-v-0-8-0-711ed55bd1278e1d6a97.js.map"
     ],
     "path---docs-getting-started-metrics": [
       "path---docs-getting-started-metrics-01fcbede325da912371b.js",
@@ -159,9 +159,9 @@
       "path---docs-getting-started-schema-types-ecefa6a153a637794759.js.map"
     ],
     "app": [
-      "app-d46c2361990bb2a38cd6.js",
+      "app-900f60f7db47d850f121.js",
       "build-js-styles.css",
-      "app-d46c2361990bb2a38cd6.js.map",
+      "app-900f60f7db47d850f121.js.map",
       "build-js-styles.css.map"
     ],
     "path---docs-getting-started-directives": [
