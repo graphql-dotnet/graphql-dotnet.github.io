@@ -28,10 +28,6 @@
       "path---docs-getting-started-variables-881e25a2845d5f570572.js",
       "path---docs-getting-started-variables-881e25a2845d5f570572.js.map"
     ],
-    "path---docs-guides-v-0110": [
-      "path---docs-guides-v-0110-2e50db3217d9c9a33799.js",
-      "path---docs-guides-v-0110-2e50db3217d9c9a33799.js.map"
-    ],
     "path---docs-getting-started-unions": [
       "path---docs-getting-started-unions-725134ae5f06fb921687.js",
       "path---docs-getting-started-unions-725134ae5f06fb921687.js.map"
@@ -49,8 +45,8 @@
       "path---docs-getting-started-lists-non-null-92bcd8f246274c9c4b6f.js.map"
     ],
     "path---": [
-      "path----a26897f4222c7da4ad36.js",
-      "path----a26897f4222c7da4ad36.js.map"
+      "path----7879962d6618cde1b0e4.js",
+      "path----7879962d6618cde1b0e4.js.map"
     ],
     "path---docs-guides-dataloader": [
       "path---docs-guides-dataloader-c8a7201e2f216c5221e4.js",
@@ -85,12 +81,16 @@
       "path---docs-getting-started-query-validation-ef439a110171011807ef.js.map"
     ],
     "component---src-layouts-index-js": [
-      "component---src-layouts-index-js-85de4f221b6b98b27f33.js",
-      "component---src-layouts-index-js-85de4f221b6b98b27f33.js.map"
+      "component---src-layouts-index-js-e51fb2f1b8b0a7e3cbfb.js",
+      "component---src-layouts-index-js-e51fb2f1b8b0a7e3cbfb.js.map"
     ],
     "path---docs-getting-started-mutations": [
       "path---docs-getting-started-mutations-a55cd815b5a38fcb70cd.js",
       "path---docs-getting-started-mutations-a55cd815b5a38fcb70cd.js.map"
+    ],
+    "path---docs-guides-v-0-11-0": [
+      "path---docs-guides-v-0-11-0-51e62cdba0904c362ba4.js",
+      "path---docs-guides-v-0-11-0-51e62cdba0904c362ba4.js.map"
     ],
     "path---docs-getting-started-field-middleware": [
       "path---docs-getting-started-field-middleware-0bb961a910e1b32bb8c4.js",
@@ -99,6 +99,10 @@
     "path---docs-getting-started-interfaces": [
       "path---docs-getting-started-interfaces-9012dc660e6ec9ff4987.js",
       "path---docs-getting-started-interfaces-9012dc660e6ec9ff4987.js.map"
+    ],
+    "path---docs-guides-v-0-8-0": [
+      "path---docs-guides-v-0-8-0-dba3a3dfe1cc2c8348a7.js",
+      "path---docs-guides-v-0-8-0-dba3a3dfe1cc2c8348a7.js.map"
     ],
     "path---docs-guides-links": [
       "path---docs-guides-links-df7859cc2ddfda869415.js",
@@ -155,14 +159,10 @@
       "path---docs-getting-started-schema-types-ecefa6a153a637794759.js.map"
     ],
     "app": [
-      "app-70c4a7486c0f74b7499a.js",
+      "app-d46c2361990bb2a38cd6.js",
       "build-js-styles.css",
-      "app-70c4a7486c0f74b7499a.js.map",
+      "app-d46c2361990bb2a38cd6.js.map",
       "build-js-styles.css.map"
-    ],
-    "path---docs-guides-v-080": [
-      "path---docs-guides-v-080-2651a6bff4e246237482.js",
-      "path---docs-guides-v-080-2651a6bff4e246237482.js.map"
     ],
     "path---docs-getting-started-directives": [
       "path---docs-getting-started-directives-b2c6ea0620a910b34703.js",
