@@ -1,5 +1,9 @@
 {
   "assetsByChunkName": {
+    "path---docs-guides-serialization": [
+      "path---docs-guides-serialization-462466224d51a44b40b1.js",
+      "path---docs-guides-serialization-462466224d51a44b40b1.js.map"
+    ],
     "path---docs-getting-started-installation": [
       "path---docs-getting-started-installation-7d8022ca267e084a0320.js",
       "path---docs-getting-started-installation-7d8022ca267e084a0320.js.map"
@@ -41,8 +45,8 @@
       "path---docs-migrations-migration-4-20f101acb52eceec71c5.js.map"
     ],
     "path---": [
-      "path----30786628635401be1d3a.js",
-      "path----30786628635401be1d3a.js.map"
+      "path----5348fa52d270487173d4.js",
+      "path----5348fa52d270487173d4.js.map"
     ],
     "path---docs-guides-dataloader": [
       "path---docs-guides-dataloader-8de7372d95466902cc73.js",
@@ -57,8 +61,8 @@
       "path---docs-getting-started-databases-8c247e11852995057bce.js.map"
     ],
     "path---docs-getting-started-errors": [
-      "path---docs-getting-started-errors-08e67804dd4606cbcca9.js",
-      "path---docs-getting-started-errors-08e67804dd4606cbcca9.js.map"
+      "path---docs-getting-started-errors-2341b2ea46efcfc26db7.js",
+      "path---docs-getting-started-errors-2341b2ea46efcfc26db7.js.map"
     ],
     "path---docs-getting-started-arguments": [
       "path---docs-getting-started-arguments-4c12ae0ec233a93f6b5d.js",
@@ -85,8 +89,8 @@
       "path---docs-guides-document-caching-93eb6747e854b0ffd14b.js.map"
     ],
     "component---src-layouts-index-js": [
-      "component---src-layouts-index-js-f0737b5dc733eb720b5f.js",
-      "component---src-layouts-index-js-f0737b5dc733eb720b5f.js.map"
+      "component---src-layouts-index-js-ff740186267e740d1252.js",
+      "component---src-layouts-index-js-ff740186267e740d1252.js.map"
     ],
     "path---docs-getting-started-mutations": [
       "path---docs-getting-started-mutations-49063a82c5e21617f73a.js",
@@ -171,9 +175,9 @@
       "path---docs-getting-started-schema-types-811ef1b16076fec6cc0e.js.map"
     ],
     "app": [
-      "app-a30a781e06d18242a53a.js",
+      "app-e8098a4524b5590f9c7f.js",
       "build-js-styles.css",
-      "app-a30a781e06d18242a53a.js.map",
+      "app-e8098a4524b5590f9c7f.js.map",
       "build-js-styles.css.map"
     ],
     "path---docs-getting-started-directives": [
