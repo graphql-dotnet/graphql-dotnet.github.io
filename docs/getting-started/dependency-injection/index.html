@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><link rel="preload" href="/component---src-layouts-index-js-ff740186267e740d1252.js" as="script"/><link rel="preload" href="/component---src-templates-docs-page-js-8e21cb098d5f49b9ad94.js" as="script"/><link rel="preload" href="/path---docs-getting-started-dependency-injection-ffabf0bf7177a51cc34c.js" as="script"/><link rel="preload" href="/app-e8098a4524b5590f9c7f.js" as="script"/><link rel="preload" href="/commons-a7cf6837d3c24c1c9d2a.js" as="script"/><title data-react-helmet="true">GraphQL .NET</title><meta data-react-helmet="true" name="description" content="GraphQL for .NET"/><meta data-react-helmet="true" name="keywords" content="graphql,api,web api,.net,.net core"/><style type="text/css">
+<!DOCTYPE html><html><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><link rel="preload" href="/component---src-layouts-index-js-ec37a9b4f58219b99271.js" as="script"/><link rel="preload" href="/component---src-templates-docs-page-js-8e21cb098d5f49b9ad94.js" as="script"/><link rel="preload" href="/path---docs-getting-started-dependency-injection-5a5fa645118bf4e587c2.js" as="script"/><link rel="preload" href="/app-b70a48640f802ef752e4.js" as="script"/><link rel="preload" href="/commons-a7cf6837d3c24c1c9d2a.js" as="script"/><title data-react-helmet="true">GraphQL .NET</title><meta data-react-helmet="true" name="description" content="GraphQL for .NET"/><meta data-react-helmet="true" name="keywords" content="graphql,api,web api,.net,.net core"/><style type="text/css">
     .anchor {
       float: left;
       padding-right: 4px;
@@ -80,25 +80,26 @@
 <p>How you integrate this into your system will depend on the dependency injection framework you are using. <code class="language-text">FuncServiceProvider</code> is provided for easy integration with multiple containers.</p>
 <h2 id="dependency-injection-registration-helpers"><a href="#dependency-injection-registration-helpers" aria-hidden="true" class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Dependency Injection Registration Helpers</h2>
 <p>GraphQL.NET provides an <code class="language-text">IGraphQLBuilder</code> interface which encapsulates the configuration methods of a dependency injection framework, to provide an
-abstract method of configuring a dependency injection framework to work with GraphQL.NET. This interface is returned from a DI-provider-specific
-setup method (typically called <code class="language-text">AddGraphQL()</code>), at which point you can call extension methods on the interface to configure this library. A simple
-example is below:</p>
+abstract method of configuring a dependency injection framework to work with GraphQL.NET. This interface is provided through a configuration delegate
+from a DI-provider-specific setup method (typically called <code class="language-text">AddGraphQL()</code>), at which point you can call extension methods on the interface to
+configure this library. A simple example is below:</p>
 <div class="gatsby-highlight" data-language="csharp">
-      <pre class="language-csharp"><code class="language-csharp">services<span class="token punctuation">.</span><span class="token function">AddGraphQL</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <pre class="language-csharp"><code class="language-csharp">services<span class="token punctuation">.</span><span class="token function">AddGraphQL</span><span class="token punctuation">(</span>builder <span class="token operator">=></span> builder
     <span class="token punctuation">.</span><span class="token function">AddSystemTextJson</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddSchema</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>MySchema<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+    <span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddSchema</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>MySchema<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
       </div>
 <p>The interface also allows configuration of the schema during initialization, and configuration of the execution at runtime. In this manner, adding
 middleware, for example, is as simple as calling <code class="language-text">.AddMiddleware&lt;MyMiddlware>()</code> and does not require the middleware to be added into the schema
 configuration.</p>
 <p>The <code class="language-text">AddGraphQL()</code> method will register default implementations of the following services within the dependency injection framework:</p>
 <ul>
-<li><code class="language-text">IDocumentExecuter</code> - which does not support subscriptions</li>
+<li><code class="language-text">IDocumentExecuter</code></li>
 <li><code class="language-text">IDocumentBuilder</code></li>
 <li><code class="language-text">IDocumentValidator</code></li>
 <li><code class="language-text">IComplexityAnalyzer</code> - which is not used unless configured within <code class="language-text">ExecutionOptions</code></li>
 <li><code class="language-text">IErrorInfoProvider</code></li>
 <li><code class="language-text">IDocumentCache</code> - an implemenation which does not cache documents</li>
+<li><code class="language-text">IExecutionStrategySelector</code> - which does not support subscriptions by default</li>
 </ul>
 <p>A list of the available extension methods is below:</p>
 <table>
@@ -110,6 +111,16 @@ configuration.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code class="language-text">AddAutoClrMappings</code></td>
+<td>Configures unmapped CLR types to use auto-registering graph types</td>
+<td></td>
+</tr>
+<tr>
+<td><code class="language-text">AddAutoSchema</code></td>
+<td>Registers a schema based on CLR types</td>
+<td></td>
+</tr>
 <tr>
 <td><code class="language-text">AddClrTypeMappings</code></td>
 <td>Scans the specified assembly for graph types intended to represent CLR types and registers them within the schema</td>
@@ -141,18 +152,30 @@ configuration.</p>
 <td></td>
 </tr>
 <tr>
-<td><code class="language-text">AddDocumentWriter&lt;></code></td>
-<td>Registers the specified document writer</td>
-<td></td>
-</tr>
-<tr>
 <td><code class="language-text">AddErrorInfoProvider</code></td>
 <td>Registers a custom error info provider or configures the default error info provider</td>
 <td></td>
 </tr>
 <tr>
+<td><code class="language-text">AddExecutionStrategy</code></td>
+<td>Registers an 
+<code class="language-text">ExecutionStrategyRegistration</code>
+ for the selected execution strategy and operation type</td>
+<td></td>
+</tr>
+<tr>
+<td><code class="language-text">AddExecutionStrategySelector</code></td>
+<td>Registers the specified execution strategy selector</td>
+<td></td>
+</tr>
+<tr>
 <td><code class="language-text">AddGraphTypes</code></td>
 <td>Scans the specified assembly for graph types and registers them within the DI framework</td>
+<td></td>
+</tr>
+<tr>
+<td><code class="language-text">AddGraphTypeMappingProvider</code></td>
+<td>Registers a graph type mapping provider for unmapped CLR types</td>
 <td></td>
 </tr>
 <tr>
@@ -172,7 +195,7 @@ configuration.</p>
 </tr>
 <tr>
 <td><code class="language-text">AddNewtonsoftJson</code></td>
-<td>Registers the document writer that uses Newtonsoft.Json as its underlying JSON serialization engine</td>
+<td>Registers the serializer that uses Newtonsoft.Json as its underlying JSON serialization engine</td>
 <td>GraphQL.NewtonsoftJson</td>
 </tr>
 <tr>
@@ -186,13 +209,13 @@ configuration.</p>
 <td></td>
 </tr>
 <tr>
-<td><code class="language-text">AddSubscriptionDocumentExecuter</code></td>
-<td>Registers the document executer that has subscription support</td>
-<td>GraphQL.SystemReactive</td>
+<td><code class="language-text">AddSerializer&lt;></code></td>
+<td>Registers the specified serializer</td>
+<td></td>
 </tr>
 <tr>
 <td><code class="language-text">AddSystemTextJson</code></td>
-<td>Registers the document writer that uses System.Text.Json as its underlying JSON serialization engine</td>
+<td>Registers the serializer that uses System.Text.Json as its underlying JSON serialization engine</td>
 <td>GraphQL.SystemTextJson</td>
 </tr>
 <tr>
@@ -201,7 +224,7 @@ configuration.</p>
 <td></td>
 </tr>
 <tr>
-<td><code class="language-text">ConfigureExecution</code></td>
+<td><code class="language-text">ConfigureExecutionOptions</code></td>
 <td>Configures execution options at runtime</td>
 <td></td>
 </tr>
@@ -215,20 +238,30 @@ configuration.</p>
 <td>Used by extension methods to configures an options class within the DI framework</td>
 <td></td>
 </tr>
-<tr>
-<td><code class="language-text">Register</code></td>
-<td>Used by extension methods to register services within the DI framework</td>
-<td></td>
-</tr>
-<tr>
-<td><code class="language-text">TryRegister</code></td>
-<td>Used by extension methods to register services within the DI framework when they have not already been registered</td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <p>The above methods will register the specified services typically as singletons unless otherwise specified. Graph types and middleware are registered
 as transients so that they will match the schema lifetime. So with a singleton schema, all services are effectively singletons.</p>
+<p>Custom <code class="language-text">IGraphQLBuilder</code> extension methods typically rely on the <code class="language-text">Services</code> property of the builder in order to register services
+with the underlying dependency injection framework. The <code class="language-text">Services</code> property returns a <code class="language-text">IServiceRegister</code> interface which has these methods:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-text">Register</code></td>
+<td>Registers a service within the DI framework replacing existing registration if needed</td>
+</tr>
+<tr>
+<td><code class="language-text">TryRegister</code></td>
+<td>Registers a service within the DI framework if it has not already been registered</td>
+</tr>
+</tbody>
+</table>
 <p>To use the <code class="language-text">AddGraphQL</code> method, you will need to install the proper nuget package for your DI provider. See list below:</p>
 <table>
 <thead>
@@ -251,7 +284,7 @@ as transients so that they will match the schema lifetime. So with a singleton s
       <pre class="language-csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">ConfigureServices</span><span class="token punctuation">(</span><span class="token class-name">IServiceCollection</span> services<span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
     services<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddSingleton</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>IDocumentExecuter<span class="token punctuation">,</span> DocumentExecuter<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    services<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddSingleton</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>IDocumentWriter<span class="token punctuation">,</span> DocumentWriter<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    services<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddSingleton</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>IGraphQLSerializer<span class="token punctuation">,</span> GraphQLSerializer<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     services<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddSingleton</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>StarWarsData<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     services<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddSingleton</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>StarWarsQuery<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     services<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddSingleton</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>StarWarsMutation<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -290,10 +323,9 @@ as usual. Graph types can also pull in any services registered with dependency i
 <p>Note that if any of the graph types directly or indirectly implement <code class="language-text">IDisposable</code>, be sure to register those types with your dependency
 injection provider, or their <code class="language-text">Dispose</code> methods will not be called. Any dependencies of graph types that implement
 <code class="language-text">IDisposable</code> will be disposed of properly, regardless of whether the graph type is registered within the service provider.</p>
-<p>You can also use the <code class="language-text">services.AddGraphTypes()</code> extension method from the <a href="https://github.com/graphql-dotnet/server">server</a>
-project to scan the calling assembly for classes that implement <code class="language-text">IGraphType</code> and register them all as singletons
-within the service provider. Mark your class with <code class="language-text">DoNotRegisterAttribute</code> if you want to skip registration.
-For additional options and overloads of this method, see <a href="https://github.com/graphql-dotnet/server/blob/master/src/Core/Extensions/GraphQLBuilderCoreExtensions.cs">GraphQLBuilderCoreExtensions.cs</a>.</p>
+<p>You can also use the <code class="language-text">.AddGraphTypes()</code> builder method to scan the calling or specified assembly for classes that implement
+<code class="language-text">IGraphType</code> and register them all as transients within the service provider. Mark your class with <code class="language-text">DoNotRegisterAttribute</code> if you
+want to skip registration.</p>
 <h2 id="nancy-tinyioccontainer"><a href="#nancy-tinyioccontainer" aria-hidden="true" class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Nancy TinyIoCContainer</h2>
 <div class="gatsby-highlight" data-language="csharp">
       <pre class="language-csharp"><code class="language-csharp"><span class="token keyword">protected</span> <span class="token keyword">override</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">ConfigureApplicationContainer</span><span class="token punctuation">(</span><span class="token class-name">TinyIoCContainer</span> container<span class="token punctuation">)</span>
@@ -366,9 +398,9 @@ might look like this:</p>
 <div class="gatsby-highlight" data-language="csharp">
       <pre class="language-csharp"><code class="language-csharp"><span class="token class-name"><span class="token keyword">var</span></span> result <span class="token operator">=</span> <span class="token keyword">await</span> _executer<span class="token punctuation">.</span><span class="token function">ExecuteAsync</span><span class="token punctuation">(</span>options <span class="token operator">=></span>
 <span class="token punctuation">{</span>
-    options<span class="token punctuation">.</span>Schema <span class="token operator">=</span> schema<span class="token punctuation">;</span>
+    options<span class="token punctuation">.</span>Schema <span class="token operator">=</span> _schema<span class="token punctuation">;</span>
     options<span class="token punctuation">.</span>Query <span class="token operator">=</span> request<span class="token punctuation">.</span>Query<span class="token punctuation">;</span>
-    options<span class="token punctuation">.</span>Inputs <span class="token operator">=</span> request<span class="token punctuation">.</span>Variables<span class="token punctuation">.</span><span class="token function">ToInputs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    options<span class="token punctuation">.</span>Variables <span class="token operator">=</span> _serializer<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">Deserialize</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>Inputs<span class="token punctuation">></span></span></span><span class="token punctuation">(</span>request<span class="token punctuation">.</span>Variables<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// IGraphQLTextSerializer from DI</span>
     options<span class="token punctuation">.</span>RequestServices <span class="token operator">=</span> context<span class="token punctuation">.</span>RequestServices<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
       </div>
@@ -486,4 +518,4 @@ which will be evaluated at runtime to their relevant Scoped services, <code clas
 <ol>
 <li>Add <code class="language-text">Defer&lt;T></code> to be injected by the dependency injection container. This is a factory which upon calling <code class="language-text">Defer.Value</code> will resolve the requested service using any currently registered scope provider (e.g. <code class="language-text">AspNetCoreHttpScopeProvider</code>)</li>
 <li>Use the <code class="language-text">Defer&lt;T></code> factory class to resolve the requested dependency using any currently registered scope provider. In our case it will attempt to use the <code class="language-text">IHttpContextAccessor.HttpContext.RequestServices</code> which is the ASP.NET Core Scoped <code class="language-text">IServiceProvider</code> in order to resolve the dependency.</li>
-</ol></article><div class="content-toolbar"><a href="https://github.com/graphql-dotnet/graphql-dotnet/edit/master/docs2/site/docs/getting-started/dependency-injection.md" rel="noopener noreferrer" target="_blank">Edit this page on GitHub</a></div></div><div class="nav"><nav><ul><li><span>Getting Started</span><nav><ul><li><a class="" href="/docs/getting-started/introduction">Introduction</a></li><li><a class="" href="/docs/getting-started/installation">Installation</a></li><li><a class="" href="/docs/getting-started/graphiql">GraphiQL</a></li><li><a class="" href="/docs/getting-started/altair-graphql">Altair GraphQL</a></li><li><a class="" href="/docs/getting-started/queries">Queries</a></li><li><a class="" href="/docs/getting-started/schema-types">Schema Types</a></li><li><a class="" href="/docs/getting-started/custom-scalars">Custom Scalars</a></li><li><a class="" href="/docs/getting-started/lists-non-null">Lists and Non-Null</a></li><li><a class="" href="/docs/getting-started/arguments">Arguments</a></li><li><a class="" href="/docs/getting-started/aliases">Aliases</a></li><li><a class="" href="/docs/getting-started/fragments">Fragments</a></li><li><a class="" href="/docs/getting-started/variables">Variables</a></li><li><a class="" href="/docs/getting-started/directives">Directives</a></li><li><a class="" href="/docs/getting-started/mutations">Mutations</a></li><li><a class="" href="/docs/getting-started/interfaces">Interfaces</a></li><li><a class="" href="/docs/getting-started/unions">Unions</a></li><li><a class="" href="/docs/getting-started/subscriptions">Subscriptions</a></li><li><a class="" href="/docs/getting-started/query-validation">Query Validation</a></li><li><a class="" href="/docs/getting-started/query-organization">Query Organization</a></li><li><a class="" href="/docs/getting-started/user-context">User Context</a></li><li><a class="" href="/docs/getting-started/errors">Error Handling</a></li><li><a class="active" href="/docs/getting-started/dependency-injection">Dependency Injection</a></li><li><a class="" href="/docs/getting-started/databases">Databases</a></li><li><a class="" href="/docs/getting-started/malicious-queries">Malicious Queries</a></li><li><a class="" href="/docs/getting-started/metadata">Object/Field Metadata</a></li><li><a class="" href="/docs/getting-started/field-middleware">Field Middleware</a></li><li><a class="" href="/docs/getting-started/metrics">Metrics</a></li><li><a class="" href="/docs/getting-started/authorization">Authorization</a></li><li><a class="" href="/docs/getting-started/relay">Relay</a></li><li><a class="" href="/docs/getting-started/global-switches">Global Switches</a></li></ul></nav></li><li><span>Guides</span><nav><ul><li><a class="" href="/docs/guides/serialization">Serialization</a></li><li><a class="" href="/docs/guides/dataloader">Dataloader</a></li><li><a class="" href="/docs/guides/schema-generation">Schema Generation</a></li><li><a class="" href="/docs/guides/known-issues">Known Issues &amp; FAQ</a></li><li><a class="" href="/docs/guides/links">Links</a></li><li><a class="" href="/docs/guides/document-caching">Document Caching</a></li></ul></nav></li><li><span>Migration Guides</span><nav><ul><li><a class="" href="/docs/migrations/migration4">Migration Guide [v3 -&gt; v4]</a></li><li><a class="" href="/docs/migrations/migration3">Migration Guide [v2 -&gt; v3]</a></li><li><a class="" href="/docs/migrations/migration2">Migration Guide [v0.17.x -&gt; v2]</a></li><li><a class="" href="/docs/migrations/v0_11_0">Migration Guide [v0.11.0]</a></li><li><a class="" href="/docs/migrations/v0_8_0">Migration Guide [v0.8.0]</a></li></ul></nav></li></ul></nav></div></div></div><script id="webpack-manifest">/*<![CDATA[*/window.webpackManifest={"231608221292675":"app-e8098a4524b5590f9c7f.js","95710047193689":"component---site-pages-landing-js-7a04f3721ec3f8b3df00.js","28613242278168":"component---src-templates-docs-page-js-8e21cb098d5f49b9ad94.js","162898551421021":"component---src-pages-404-js-dafbfbd345a265f9fe6e.js","60335399758886":"path----5348fa52d270487173d4.js","142629428675168":"path---index-6b1dcdab0a774a86ff50.js","194669561623365":"path---docs-getting-started-introduction-6e6cbcebf47330b0a81d.js","7936910712040":"path---docs-getting-started-installation-7d8022ca267e084a0320.js","86643674157860":"path---docs-getting-started-graphiql-f33bd2db8b9e17e05b5c.js","53507852050045":"path---docs-getting-started-altair-graphql-432e07418ea18f50bbec.js","143391023720279":"path---docs-getting-started-queries-b10ffed3178bfbf8204b.js","202354100065884":"path---docs-getting-started-schema-types-81395f60bf11d31e4d32.js","266142771958950":"path---docs-getting-started-custom-scalars-53eb706818246c23fc88.js","56185524266781":"path---docs-getting-started-lists-non-null-e685364a0af4c21096f9.js","76576268814232":"path---docs-getting-started-arguments-52ff836595dbe31dedcd.js","202043887933404":"path---docs-getting-started-aliases-70e6a221c3b60856c9ce.js","157702184900489":"path---docs-getting-started-fragments-b78adb5f2a55e1757268.js","44712706562510":"path---docs-getting-started-variables-0dd092bf9a3984b2c64c.js","244442750240678":"path---docs-getting-started-directives-48414beb3629f7383cfe.js","114361466534084":"path---docs-getting-started-mutations-8d3f2e9bee63a429a7c6.js","133838580703967":"path---docs-getting-started-interfaces-23354ec0971c79c7ede8.js","53220472400125":"path---docs-getting-started-unions-00f581913ae18e4f19d7.js","278627754389952":"path---docs-getting-started-subscriptions-7fc3a94fad256800e2ea.js","107167650384582":"path---docs-getting-started-query-validation-951e743f73e6de70393e.js","11491794978075":"path---docs-getting-started-query-organization-003284bc3d803af3e851.js","171719905287791":"path---docs-getting-started-user-context-9f7b411d442163a92cb0.js","75494656540334":"path---docs-getting-started-errors-cc7b0b574947536ff452.js","178698305269250":"path---docs-getting-started-dependency-injection-ffabf0bf7177a51cc34c.js","75420749601626":"path---docs-getting-started-databases-8c247e11852995057bce.js","55192516056771":"path---docs-getting-started-malicious-queries-8cfc2e56689958d6cad2.js","33904618880309":"path---docs-getting-started-metadata-fa9be91f3cc04771446c.js","131465737246961":"path---docs-getting-started-field-middleware-95accab31314c6ebbb6e.js","185577185973635":"path---docs-getting-started-metrics-01f849476c8e7fb71636.js","271764429786961":"path---docs-getting-started-authorization-8d8fd2fcecbe5078cfd4.js","71981178235569":"path---docs-getting-started-relay-ffee045935c5c5403cd5.js","167079278695343":"path---docs-getting-started-global-switches-bde872387f8659f5a43e.js","970605649915":"path---docs-guides-serialization-18b0fc9aa1534af202e0.js","67274500541493":"path---docs-guides-dataloader-d40d35e1e24a9c1f2b84.js","254760750072238":"path---docs-guides-schema-generation-0387bd7d86b48ed53440.js","260838844694584":"path---docs-guides-known-issues-491410ef694090a5b3b5.js","139372590924694":"path---docs-guides-links-23fe4eb9d559d9c8dfe5.js","107626090068759":"path---docs-guides-document-caching-68b59920c8e0d1f70568.js","57783942601805":"path---docs-migrations-migration-4-ddf2740029240c63307d.js","170816503279010":"path---docs-migrations-migration-3-592f267ac70d938bd515.js","87071238410674":"path---docs-migrations-migration-2-12e6d729190fab470be4.js","129554874384426":"path---docs-migrations-v-0-11-0-43992d4826c517cbc95e.js","179521343418354":"path---docs-migrations-v-0-8-0-711ed55bd1278e1d6a97.js","254022195166212":"path---404-a0e39f21c11f6a62c5ab.js","178698757827068":"path---404-html-a0e39f21c11f6a62c5ab.js","114276838955818":"component---src-layouts-index-js-ff740186267e740d1252.js"}/*]]>*/</script><script>/*<![CDATA[*/["/commons-a7cf6837d3c24c1c9d2a.js","/app-e8098a4524b5590f9c7f.js","/path---docs-getting-started-dependency-injection-ffabf0bf7177a51cc34c.js","/component---src-templates-docs-page-js-8e21cb098d5f49b9ad94.js","/component---src-layouts-index-js-ff740186267e740d1252.js"].forEach(function(s){document.write('<script src="'+s+'" defer></'+'script>')})/*]]>*/</script></body></html>
+</ol></article><div class="content-toolbar"><a href="https://github.com/graphql-dotnet/graphql-dotnet/edit/master/docs2/site/docs/getting-started/dependency-injection.md" rel="noopener noreferrer" target="_blank">Edit this page on GitHub</a></div></div><div class="nav"><nav><ul><li><span>Getting Started</span><nav><ul><li><a class="" href="/docs/getting-started/introduction">Introduction</a></li><li><a class="" href="/docs/getting-started/installation">Installation</a></li><li><a class="" href="/docs/getting-started/graphiql">GraphiQL</a></li><li><a class="" href="/docs/getting-started/altair-graphql">Altair GraphQL</a></li><li><a class="" href="/docs/getting-started/queries">Queries</a></li><li><a class="" href="/docs/getting-started/schema-types">Schema Types</a></li><li><a class="" href="/docs/getting-started/custom-scalars">Custom Scalars</a></li><li><a class="" href="/docs/getting-started/lists-non-null">Lists and Non-Null</a></li><li><a class="" href="/docs/getting-started/arguments">Arguments</a></li><li><a class="" href="/docs/getting-started/aliases">Aliases</a></li><li><a class="" href="/docs/getting-started/fragments">Fragments</a></li><li><a class="" href="/docs/getting-started/variables">Variables</a></li><li><a class="" href="/docs/getting-started/directives">Directives</a></li><li><a class="" href="/docs/getting-started/mutations">Mutations</a></li><li><a class="" href="/docs/getting-started/interfaces">Interfaces</a></li><li><a class="" href="/docs/getting-started/unions">Unions</a></li><li><a class="" href="/docs/getting-started/subscriptions">Subscriptions</a></li><li><a class="" href="/docs/getting-started/query-validation">Query Validation</a></li><li><a class="" href="/docs/getting-started/query-organization">Query Organization</a></li><li><a class="" href="/docs/getting-started/user-context">User Context</a></li><li><a class="" href="/docs/getting-started/errors">Error Handling</a></li><li><a class="active" href="/docs/getting-started/dependency-injection">Dependency Injection</a></li><li><a class="" href="/docs/getting-started/databases">Databases</a></li><li><a class="" href="/docs/getting-started/malicious-queries">Malicious Queries</a></li><li><a class="" href="/docs/getting-started/metadata">Object/Field Metadata</a></li><li><a class="" href="/docs/getting-started/field-middleware">Field Middleware</a></li><li><a class="" href="/docs/getting-started/metrics">Metrics</a></li><li><a class="" href="/docs/getting-started/authorization">Authorization</a></li><li><a class="" href="/docs/getting-started/relay">Relay</a></li><li><a class="" href="/docs/getting-started/global-switches">Global Switches</a></li></ul></nav></li><li><span>Guides</span><nav><ul><li><a class="" href="/docs/guides/serialization">Serialization</a></li><li><a class="" href="/docs/guides/dataloader">Dataloader</a></li><li><a class="" href="/docs/guides/schema-generation">Schema Generation</a></li><li><a class="" href="/docs/guides/known-issues">Known Issues &amp; FAQ</a></li><li><a class="" href="/docs/guides/links">Links</a></li><li><a class="" href="/docs/guides/document-caching">Document Caching</a></li></ul></nav></li><li><span>Migration Guides</span><nav><ul><li><a class="" href="/docs/migrations/migration5">Migration Guide [v4 -&gt; v5]</a></li><li><a class="" href="/docs/migrations/migration4">Migration Guide [v3 -&gt; v4]</a></li><li><a class="" href="/docs/migrations/migration3">Migration Guide [v2 -&gt; v3]</a></li><li><a class="" href="/docs/migrations/migration2">Migration Guide [v0.17.x -&gt; v2]</a></li><li><a class="" href="/docs/migrations/v0_11_0">Migration Guide [v0.11.0]</a></li><li><a class="" href="/docs/migrations/v0_8_0">Migration Guide [v0.8.0]</a></li></ul></nav></li></ul></nav></div></div></div><script id="webpack-manifest">/*<![CDATA[*/window.webpackManifest={"231608221292675":"app-b70a48640f802ef752e4.js","95710047193689":"component---site-pages-landing-js-7a04f3721ec3f8b3df00.js","28613242278168":"component---src-templates-docs-page-js-8e21cb098d5f49b9ad94.js","162898551421021":"component---src-pages-404-js-dafbfbd345a265f9fe6e.js","60335399758886":"path----28952ff3c5b84b60f25b.js","142629428675168":"path---index-6b1dcdab0a774a86ff50.js","194669561623365":"path---docs-getting-started-introduction-6295ad9245bb5eff620c.js","7936910712040":"path---docs-getting-started-installation-47d40962aa0cbc105411.js","86643674157860":"path---docs-getting-started-graphiql-f33bd2db8b9e17e05b5c.js","53507852050045":"path---docs-getting-started-altair-graphql-432e07418ea18f50bbec.js","143391023720279":"path---docs-getting-started-queries-b10ffed3178bfbf8204b.js","202354100065884":"path---docs-getting-started-schema-types-81395f60bf11d31e4d32.js","266142771958950":"path---docs-getting-started-custom-scalars-caf0253f1b22d6ab80b8.js","56185524266781":"path---docs-getting-started-lists-non-null-e685364a0af4c21096f9.js","76576268814232":"path---docs-getting-started-arguments-52ff836595dbe31dedcd.js","202043887933404":"path---docs-getting-started-aliases-70e6a221c3b60856c9ce.js","157702184900489":"path---docs-getting-started-fragments-b78adb5f2a55e1757268.js","44712706562510":"path---docs-getting-started-variables-e625c38a650cae282cd1.js","244442750240678":"path---docs-getting-started-directives-48414beb3629f7383cfe.js","114361466534084":"path---docs-getting-started-mutations-8d3f2e9bee63a429a7c6.js","133838580703967":"path---docs-getting-started-interfaces-23354ec0971c79c7ede8.js","53220472400125":"path---docs-getting-started-unions-00f581913ae18e4f19d7.js","278627754389952":"path---docs-getting-started-subscriptions-7e27284bbc8f8b9457e3.js","107167650384582":"path---docs-getting-started-query-validation-951e743f73e6de70393e.js","11491794978075":"path---docs-getting-started-query-organization-003284bc3d803af3e851.js","171719905287791":"path---docs-getting-started-user-context-9f7b411d442163a92cb0.js","75494656540334":"path---docs-getting-started-errors-de3924a9f6c9fc55cff2.js","178698305269250":"path---docs-getting-started-dependency-injection-5a5fa645118bf4e587c2.js","75420749601626":"path---docs-getting-started-databases-8c247e11852995057bce.js","55192516056771":"path---docs-getting-started-malicious-queries-8cfc2e56689958d6cad2.js","33904618880309":"path---docs-getting-started-metadata-fa9be91f3cc04771446c.js","131465737246961":"path---docs-getting-started-field-middleware-95accab31314c6ebbb6e.js","185577185973635":"path---docs-getting-started-metrics-0ce35151c9c1d69507e3.js","271764429786961":"path---docs-getting-started-authorization-50c3e41bd97ca2699b0e.js","71981178235569":"path---docs-getting-started-relay-ffee045935c5c5403cd5.js","167079278695343":"path---docs-getting-started-global-switches-bde872387f8659f5a43e.js","970605649915":"path---docs-guides-serialization-18b0fc9aa1534af202e0.js","67274500541493":"path---docs-guides-dataloader-d40d35e1e24a9c1f2b84.js","254760750072238":"path---docs-guides-schema-generation-0387bd7d86b48ed53440.js","260838844694584":"path---docs-guides-known-issues-491410ef694090a5b3b5.js","139372590924694":"path---docs-guides-links-23fe4eb9d559d9c8dfe5.js","107626090068759":"path---docs-guides-document-caching-68b59920c8e0d1f70568.js","169038957085601":"path---docs-migrations-migration-5-098d2e9a090e740b34bc.js","57783942601805":"path---docs-migrations-migration-4-ddf2740029240c63307d.js","170816503279010":"path---docs-migrations-migration-3-592f267ac70d938bd515.js","87071238410674":"path---docs-migrations-migration-2-12e6d729190fab470be4.js","129554874384426":"path---docs-migrations-v-0-11-0-43992d4826c517cbc95e.js","179521343418354":"path---docs-migrations-v-0-8-0-711ed55bd1278e1d6a97.js","254022195166212":"path---404-a0e39f21c11f6a62c5ab.js","178698757827068":"path---404-html-a0e39f21c11f6a62c5ab.js","114276838955818":"component---src-layouts-index-js-ec37a9b4f58219b99271.js"}/*]]>*/</script><script>/*<![CDATA[*/["/commons-a7cf6837d3c24c1c9d2a.js","/app-b70a48640f802ef752e4.js","/path---docs-getting-started-dependency-injection-5a5fa645118bf4e587c2.js","/component---src-templates-docs-page-js-8e21cb098d5f49b9ad94.js","/component---src-layouts-index-js-ec37a9b4f58219b99271.js"].forEach(function(s){document.write('<script src="'+s+'" defer></'+'script>')})/*]]>*/</script></body></html>
