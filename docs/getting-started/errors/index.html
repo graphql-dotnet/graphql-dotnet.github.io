@@ -170,7 +170,7 @@ of type <code class="language-text">IntGraphType</code>, and</p>
 </ul>
 <p>system cannot perform the conversion.</p>
 <p>Processing errors can be thrown back to the caller of <code class="language-text">DocumentExecuter.ExecuteAsync</code> by setting the
-<code class="language-text">ExecutionOptions.ThrowOnUnhandledExceptions</code> property to <code class="language-text">true</code>. When this property is set to <code class="language-text">false</code>,
+<code class="language-text">ExecutionOptions.ThrowOnUnhandledException</code> property to <code class="language-text">true</code>. When this property is set to <code class="language-text">false</code>,
 the default setting, unhandled exceptions are wrapped in an <code class="language-text">UnhandledError</code> and added with a generic
 error message to the <code class="language-text">ExecutionResult.Errors</code> property. Error codes are dynamically generated from the
 inner exceptions of the wrapped exception and also returned along with data contained within the inner
@@ -179,7 +179,7 @@ exception's <code class="language-text">Data</code> property.</p>
 <code class="language-text">ExecutionOptions.UnhandledExceptionDelegate</code> property. Within the delegate you can log the error message
 and stack trace for debugging needs. You can also override the generic error message with a more specific
 message, wrap or replace the exception with your own <code class="language-text">ExecutionError</code> class, and/or set the codes and data
-as necessary. Note that if <code class="language-text">ThrowOnUnhandledExceptions</code> is <code class="language-text">true</code>, the <code class="language-text">UnhandledExceptionDelegate</code> will not be called.</p>
+as necessary. Note that if <code class="language-text">ThrowOnUnhandledException</code> is <code class="language-text">true</code>, the <code class="language-text">UnhandledExceptionDelegate</code> will not be called.</p>
 <p>Here is a sample of a typical unhandled exception delegate which logs the error to a database.
 It also returns the log id along with the error message:</p>
 <div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token class-name"><span class="token keyword">var</span></span> executer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">DocumentExecuter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
