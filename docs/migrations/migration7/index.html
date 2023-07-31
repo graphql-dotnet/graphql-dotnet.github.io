@@ -231,6 +231,66 @@ was done to conform the draft GraphQL spec. See <a href="https://github.com/grap
 <p>Since this feature may be potentially breaking for your app, clients or tooling it was done as opt-in.
 Either set <code class="language-text">schema.Features.DeprecationOfInputValues = true;</code> or call <code class="language-text">schema.EnableExperimentalIntrospectionFeatures()</code>
 method before initializing a schema.</p>
+<h3 id="13-add-code-classlanguage-textschemaexportercode-to-export-schema-to-sdl-with-new-code-classlanguage-textschematoastcode-and-code-classlanguage-textschemaprintcode-methods" style="position:relative;"><a href="#13-add-code-classlanguage-textschemaexportercode-to-export-schema-to-sdl-with-new-code-classlanguage-textschematoastcode-and-code-classlanguage-textschemaprintcode-methods" aria-label="13 add code classlanguage textschemaexportercode to export schema to sdl with new code classlanguage textschematoastcode and code classlanguage textschemaprintcode methods permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>13. Add <code class="language-text">SchemaExporter</code> to export schema to SDL with new <code class="language-text">schema.ToAST()</code> and <code class="language-text">schema.Print()</code> methods</h3>
+<p>Since 7.6 you can use <code class="language-text">schema.ToAST()</code> to export a schema to a <code class="language-text">GraphQLDocument</code> instance
+containing a SDL representation of the schema. You can also use <code class="language-text">schema.Print()</code> and
+<code class="language-text">schema.PrintAsync()</code> to print a schema to a string or <code class="language-text">TextWriter</code>. These methods use the
+new <code class="language-text">SchemaExporter</code> class along with the GraphQLParser library's <code class="language-text">SDLPrinter</code> class to
+write the SDL representation of the schema. Some of the prior options for printing a schema
+via <code class="language-text">SchemaPrinter</code> are still available, but the default values have changed as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Old Default Value</th>
+<th>New Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IncludeDescriptions</td>
+<td><code class="language-text">false</code></td>
+<td><code class="language-text">true</code></td>
+</tr>
+<tr>
+<td>IncludeDeprecationReasons</td>
+<td><code class="language-text">false</code></td>
+<td><code class="language-text">true</code></td>
+</tr>
+<tr>
+<td>IncludeFederationTypes</td>
+<td>n/a</td>
+<td><code class="language-text">true</code></td>
+</tr>
+<tr>
+<td>OldImplementsSyntax</td>
+<td><code class="language-text">false</code></td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>PrintDescriptionsAsComments</td>
+<td><code class="language-text">false</code></td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+<p>In addition, the <code class="language-text">Comparer</code> property has been removed and replaced with the <code class="language-text">StringComparison</code>
+property to sort the schema. This is performed by the GraphQLParser library's <code class="language-text">SDLSorter</code> class.
+Any custom sorting logic can be implemented by creating a custom AST vistior.</p>
+<p>The new defaults will ensure a more accurate SDL representation of the schema, but may
+not be desired when using the schema printer to check for breaking schema changes. For those
+purposes, you may wish to set <code class="language-text">IncludeDescriptions</code> and <code class="language-text">IncludeDeprecationReasons</code> to <code class="language-text">false</code>,
+and set the <code class="language-text">StringComparison</code> property to sort the SDL.</p>
+<p>With the removal of the <code class="language-text">OldImplementsSyntax</code> and <code class="language-text">PrintDescriptionsAsComments</code> properties, the
+new SDL printer is only compatible with the GraphQL June 2018 or newer specification.</p>
+<p>Finally, federated schema subgraphs can be printed in Federation v1 format by setting the
+<code class="language-text">IncludeFederationTypes</code> to <code class="language-text">false</code> (defaults to <code class="language-text">true</code>). This removes federation-specific
+types and fields from the printed SDL and is compatible with Apollo Federation v1 or v2
+schemas. Note that Apollo Federation v2 does not require these types to be removed from the SDL.
+This replaces the need for the <code class="language-text">FederatedSchemaPrinter</code> class.</p>
+<p>Please note that the <code class="language-text">SchemaExporter</code> class will export type defintions as type extensions
+(e.g. <code class="language-text">extend type MyType { ... }</code>) only when it was read as such by the <code class="language-text">SchemaBuilder</code>.</p>
+<p>Please see the <code class="language-text">SchemaExtensions.PrintAsync</code> source code implementation specifics.</p>
 <h2 id="breaking-changes" style="position:relative;"><a href="#breaking-changes" aria-label="breaking changes permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Breaking Changes</h2>
 <h3 id="1-code-classlanguage-textdataloaderpairlttkey-tloadercode-property-removed" style="position:relative;"><a href="#1-code-classlanguage-textdataloaderpairlttkey-tloadercode-property-removed" aria-label="1 code classlanguage textdataloaderpairlttkey tloadercode property removed permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. <code class="language-text">DataLoaderPair&lt;TKey, T>.Loader</code> property removed</h3>
 <p>This property was not used internally and should not be necessary by user code or custom implementations.
