@@ -84,7 +84,10 @@
 </tbody>
 </table>
 <h2 id="cause" style="position:relative;"><a href="#cause" aria-label="cause permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cause</h2>
-<p>One of the deprecated <code class="language-text">FieldXXX</code> methods that return <code class="language-text">FieldType</code> were used.</p>
+<ul>
+<li>One of the deprecated <code class="language-text">FieldXXX</code> methods that return <code class="language-text">FieldType</code> were used.</li>
+<li>Expression based <code class="language-text">Field</code> builder with <code class="language-text">nullable</code> and <code class="language-text">type</code> parameters was used.</li>
+</ul>
 <h2 id="rule-description" style="position:relative;"><a href="#rule-description" aria-label="rule description permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Rule description</h2>
 <p>A bunch of <code class="language-text">FieldXXX</code> APIs were deprecated and will be removed in future
 version. For more information see
@@ -94,7 +97,9 @@ version. For more information see
 many <code class="language-text">FieldXXX</code> overloads, start configuring your field with one of the <code class="language-text">Field</code>
 methods defined on <code class="language-text">ComplexGraphType</code>. All such methods define a new field and
 return an instance of <code class="language-text">FieldBuilder&lt;T,U></code>. Then continue to configure the field
-with rich APIs provided by the returned builder.</p>
+with rich APIs provided by the returned builder.<br>
+For the expression based field builder, you need to use an overload with only
+<code class="language-text">nullable</code> or <code class="language-text">type</code> parameters.</p>
 <h2 id="example-of-a-violation" style="position:relative;"><a href="#example-of-a-violation" aria-label="example of a violation permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example of a violation</h2>
 <div class="gatsby-highlight" data-language="c#"><pre class="language-c#"><code class="language-c#">Field&lt;NonNullGraphType&lt;StringGraphType&gt;&gt;(
     &quot;name&quot;,
@@ -113,7 +118,9 @@ FieldAsync&lt;HumanType&gt;(
         Description = &quot;id of the human&quot;
     }),
     resolve: async context =&gt; await data.GetHumanByIdAsync(context.GetArgument&lt;string&gt;(&quot;id&quot;))
-);</code></pre></div>
+);
+
+Field(x =&gt; Name, true, typeof(StringGraphType));</code></pre></div>
 <h2 id="example-of-how-to-fix" style="position:relative;"><a href="#example-of-how-to-fix" aria-label="example of how to fix permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example of how to fix</h2>
 <div class="gatsby-highlight" data-language="c#"><pre class="language-c#"><code class="language-c#">Field&lt;NonNullGraphType&lt;StringGraphType&gt;&gt;(&quot;name&quot;)
     .Description(&quot;Field description&quot;)
@@ -125,7 +132,9 @@ Field&lt;CharacterInterface&gt;(&quot;hero&quot;)
 Field&lt;HumanType&gt;(&quot;human&quot;)
     .Argument&lt;NonNullGraphType&lt;StringGraphType&gt;&gt;(&quot;id&quot;, &quot;id of the human&quot;)
     .ResolveAsync(async context =&gt; await data.GetHumanByIdAsync(context.GetArgument&lt;string&gt;(&quot;id&quot;)));
-</code></pre></div>
+
+// remove the &#39;nullable&#39; argument because if was ignored by the obsolete overload
+Field(x =&gt; Name, typeof(StringGraphType));</code></pre></div>
 <h2 id="configure-code-fix" style="position:relative;"><a href="#configure-code-fix" aria-label="configure code fix permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configure code fix</h2>
 <p>The given diagnostic rule offers an automatic code fix. By default, it attempts
 to retain the original user code formatting as much as possible but it will
