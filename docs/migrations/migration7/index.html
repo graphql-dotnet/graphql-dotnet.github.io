@@ -291,6 +291,39 @@ This replaces the need for the <code class="language-text">FederatedSchemaPrinte
 <p>Please note that the <code class="language-text">SchemaExporter</code> class will export type defintions as type extensions
 (e.g. <code class="language-text">extend type MyType { ... }</code>) only when it was read as such by the <code class="language-text">SchemaBuilder</code>.</p>
 <p>Please see the <code class="language-text">SchemaExtensions.PrintAsync</code> source code implementation specifics.</p>
+<h3 id="14-infer-field-nullability-from-nrt-annotations" style="position:relative;"><a href="#14-infer-field-nullability-from-nrt-annotations" aria-label="14 infer field nullability from nrt annotations permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>14. Infer field nullability from NRT annotations</h3>
+<p>Since 7.9 you can enable the inference of the field nullability from the Null Reference Types (NRT)
+annotations when defining the field with expression. To enable the feature set the<br>
+<code class="language-text">GlobalSwitches.InferFieldNullabilityFromNRTAnnotations</code> to <code class="language-text">true</code>.</p>
+<p>For example, given the following code</p>
+<div class="gatsby-highlight" data-language="c#"><pre class="language-c#"><code class="language-c#">public class Person
+{
+    public string FullName { get; set; }
+    public string? SpouseName { get; set; }
+    public IList&lt;string&gt;? Children { get; set; }
+}
+
+public class PersonGraphType : ObjectGraphType&lt;Person&gt;
+{
+    public PersonGraphType()
+    {
+        Field(p =&gt; p.FullName);
+        Field(p =&gt; p.SpouseName);
+        Field(p =&gt; p.Children);
+    }
+}</code></pre></div>
+<p>When <code class="language-text">InferFieldNullabilityFromNRTAnnotations</code> is <code class="language-text">false</code> (default), the result is:</p>
+<div class="gatsby-highlight" data-language="graphql"><pre class="language-graphql"><code class="language-graphql"><span class="token keyword">type</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">fullName</span><span class="token punctuation">:</span> <span class="token scalar">String</span><span class="token operator">!</span>
+  <span class="token attr-name">spouseName</span><span class="token punctuation">:</span> <span class="token scalar">String</span><span class="token operator">!</span>
+  <span class="token attr-name">children</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token scalar">String</span><span class="token punctuation">]</span><span class="token operator">!</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>When <code class="language-text">InferFieldNullabilityFromNRTAnnotations</code> is <code class="language-text">true</code>:</p>
+<div class="gatsby-highlight" data-language="graphql"><pre class="language-graphql"><code class="language-graphql"><span class="token keyword">type</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">fullName</span><span class="token punctuation">:</span> <span class="token scalar">String</span><span class="token operator">!</span>
+  <span class="token attr-name">spouseName</span><span class="token punctuation">:</span> <span class="token scalar">String</span>
+  <span class="token attr-name">children</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token scalar">String</span><span class="token operator">!</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre></div>
 <h2 id="breaking-changes" style="position:relative;"><a href="#breaking-changes" aria-label="breaking changes permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Breaking Changes</h2>
 <h3 id="1-code-classlanguage-textdataloaderpairlttkey-tloadercode-property-removed" style="position:relative;"><a href="#1-code-classlanguage-textdataloaderpairlttkey-tloadercode-property-removed" aria-label="1 code classlanguage textdataloaderpairlttkey tloadercode property removed permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. <code class="language-text">DataLoaderPair&lt;TKey, T>.Loader</code> property removed</h3>
 <p>This property was not used internally and should not be necessary by user code or custom implementations.
