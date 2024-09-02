@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkgraphql_dotnet_docs=self.webpackChunkgraphql_dotnet_docs||[]).push([[125],{3331:function(e,t,a){a.r(t);var n=a(6540);t.default=()=>n.createElement("div",{style:{margin:"0 auto",padding:"5em"}},n.createElement("h1",null,"NOT FOUND"),n.createElement("p",null,"You just hit a route that doesn't exist..."))}}]);
+//# sourceMappingURL=component---src-pages-404-js-85ee983f7aedd5226d81.js.map
