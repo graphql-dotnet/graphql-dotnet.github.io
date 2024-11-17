@@ -1406,6 +1406,35 @@ are parsed during the validation phase and need not be parsed again. See example
 <p>To continue to use the <code class="language-text">ExecutionHelper.GetArguments</code> method, you may need to refer to the GraphQL.NET source
 for reference.</p>
 <p>If you directly implement <code class="language-text">IResolveFieldContext</code>, you must now also implement the <code class="language-text">ExecutionContext</code> property.</p>
+<h3 id="30-code-classlanguage-textgraphtypeinitializecode-method-is-now-called-after-initialization-is-complete" style="position:relative;"><a href="#30-code-classlanguage-textgraphtypeinitializecode-method-is-now-called-after-initialization-is-complete" aria-label="30 code classlanguage textgraphtypeinitializecode method is now called after initialization is complete permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>30. <code class="language-text">GraphType.Initialize</code> method is now called after initialization is complete</h3>
+<p>The <code class="language-text">Initialize</code> method on each <code class="language-text">GraphType</code> is now called after the schema has been fully initialized. As such,
+you cannot add fields to the graph type expecting <code class="language-text">SchemaTypes</code> to resolve types and apply name converters.
+If it is necessary for your graph type to add fields dynamically, you should do so in the constructor or else
+set the <code class="language-text">ResolvedType</code> property for the new fields. Failing to do so will result in a schema validation exception.</p>
+<p>Please note that the constructor is the preferred place to add fields to a graph type.</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token comment">// v7</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyGraphType</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">ObjectGraphType</span></span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">override</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Initialize</span><span class="token punctuation">(</span><span class="token class-name">ISchema</span> schema<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token function">AddField</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">FieldType</span> <span class="token punctuation">{</span>
+            Name <span class="token operator">=</span> <span class="token string">"Field"</span><span class="token punctuation">,</span>
+            Type <span class="token operator">=</span> <span class="token keyword">typeof</span><span class="token punctuation">(</span><span class="token type-expression class-name">StringGraphType</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// v8</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyGraphType</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">ObjectGraphType</span></span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">override</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Initialize</span><span class="token punctuation">(</span><span class="token class-name">ISchema</span> schema<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token function">AddField</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">FieldType</span> <span class="token punctuation">{</span>
+            Name <span class="token operator">=</span> <span class="token string">"field"</span><span class="token punctuation">,</span> <span class="token comment">// name converter is not applied here, so the name must be exactly as desired</span>
+            ResolvedType <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">StringGraphType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
 <h2 id="appendix" style="position:relative;"><a href="#appendix" aria-label="appendix permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Appendix</h2>
 <h3 id="schema-verification-test-example" style="position:relative;"><a href="#schema-verification-test-example" aria-label="schema verification test example permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Schema verification test example</h3>
 <p>The below example demonstrates how to write a test to verify that the schema does not change during
