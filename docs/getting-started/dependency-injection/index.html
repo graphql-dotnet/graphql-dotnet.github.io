@@ -95,11 +95,20 @@ middleware, for example, is as simple as calling <code class="language-text">.Ad
 configuration.</p>
 <p>The <code class="language-text">AddGraphQL()</code> method will register default implementations of the following services within the dependency injection framework:</p>
 <ul>
-<li><code class="language-text">IDocumentExecuter</code></li>
+<li><code class="language-text">IDocumentExecuter</code> and <code class="language-text">IDocumentExecuter&lt;></code></li>
 <li><code class="language-text">IDocumentBuilder</code></li>
 <li><code class="language-text">IDocumentValidator</code></li>
 <li><code class="language-text">IErrorInfoProvider</code></li>
-<li><code class="language-text">IExecutionStrategySelector</code> - which does not support subscriptions by default</li>
+<li><code class="language-text">IExecutionStrategySelector</code></li>
+</ul>
+<p>These generic graph types are also registered:</p>
+<ul>
+<li><code class="language-text">EdgeType&lt;></code>, <code class="language-text">ConnectionType&lt;></code>, <code class="language-text">ConnectionType&lt;,></code> and <code class="language-text">PageInfoType</code></li>
+<li><code class="language-text">EnumerationGraphType&lt;></code></li>
+<li><code class="language-text">InputObjectGraphType&lt;></code></li>
+<li><code class="language-text">AutoRegisteringInputObjectGraphType&lt;></code></li>
+<li><code class="language-text">AutoRegisteringObjectGraphType&lt;></code></li>
+<li><code class="language-text">AutoRegisteringInterfaceGraphType&lt;></code></li>
 </ul>
 <p>A list of the available extension methods is below:</p>
 <table>
