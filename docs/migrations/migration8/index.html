@@ -1112,6 +1112,35 @@ combines these two fields into the <code class="language-text">FullName</code> p
 the <code class="language-text">Age</code> field is processed via the standard mapping mechanism by calling <code class="language-text">base.ParseDictionary</code>.
 This approach allows you to seamlessly mix automatic and custom binding, providing greater
 flexibility in how your input objects are processed and mapped.</p>
+<h3 id="31-unique-cache-keys-for-multi-schema-environments-from-version-840" style="position:relative;"><a href="#31-unique-cache-keys-for-multi-schema-environments-from-version-840" aria-label="31 unique cache keys for multi schema environments from version 840 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>31. Unique Cache Keys for Multi-Schema Environments (from version 8.4.0)</h3>
+<p>Document caching now supports unique cache keys for applications using multiple or dynamic
+schemas. The cache key has been enhanced to include an extra property computed by the new
+<code class="language-text">AdditionalCacheKeySelector</code> delegate. By default, this delegate distinguishes between
+schema-first and code-first implementations by returning the schema instance for
+schema-first and dynamic schemas (those that are direct implementations of
+<code class="language-text">Schema</code>), and the schema type for code-first and type-first schemas (schemas that derive
+from <code class="language-text">Schema</code>). This change ensures that cached documents are uniquely identified even
+when multiple schemas are configured in the same application, while still supporting
+caching for scoped code-first and type-first schemas.</p>
+<p>To migrate, you may continue using the default behavior. However, if you need further
+customization -- such as incorporating additional context to identify unique dynamic schemas
+-- you can override the default selector as shown in the example below:</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp">services<span class="token punctuation">.</span><span class="token function">AddGraphQL</span><span class="token punctuation">(</span>b <span class="token operator">=></span> b
+    <span class="token punctuation">.</span><span class="token function">UseMemoryCache</span><span class="token punctuation">(</span>options <span class="token operator">=></span>
+    <span class="token punctuation">{</span>
+        options<span class="token punctuation">.</span>AdditionalCacheKeySelector <span class="token operator">=</span> execOptions <span class="token operator">=></span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>execOptions<span class="token punctuation">.</span>UserContext <span class="token keyword">is</span> <span class="token class-name">IDictionary<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">object</span><span class="token punctuation">></span></span> context <span class="token operator">&amp;&amp;</span>
+                context<span class="token punctuation">.</span><span class="token function">TryGetValue</span><span class="token punctuation">(</span><span class="token string">"CustomHeader"</span><span class="token punctuation">,</span> <span class="token keyword">out</span> <span class="token class-name"><span class="token keyword">var</span></span> header<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> header<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p>These changes help ensure that cached documents are correctly associated with the appropriate
+schema when multiple schemas are in use.</p>
 <h2 id="breaking-changes" style="position:relative;"><a href="#breaking-changes" aria-label="breaking changes permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Breaking Changes</h2>
 <h3 id="1-query-type-is-required" style="position:relative;"><a href="#1-query-type-is-required" aria-label="1 query type is required permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Query type is required</h3>
 <p>Pursuant to the GraphQL specification, a query type is required for any schema.
