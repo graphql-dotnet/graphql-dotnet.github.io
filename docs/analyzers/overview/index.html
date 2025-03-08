@@ -55,46 +55,6 @@ in GraphQL.NET and how to configure them using the <code class="language-text">.
 <p>Analyzers in GraphQL.NET are tools that help you identify and address potential
 issues or improvements in your GraphQL code. This documentation covers currently
 available analyzers and code fixes, along with the methods to configure them.</p>
-<h2 id="included-analyzers" style="position:relative;"><a href="#included-analyzers" aria-label="included analyzers permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Included Analyzers</h2>
-<h3 id="1-fieldbuilderanalyzer" style="position:relative;"><a href="#1-fieldbuilderanalyzer" aria-label="1 fieldbuilderanalyzer permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. FieldBuilderAnalyzer</h3>
-<p>This analyzer focuses on replacing obsolete methods involving field building. It
-aims to enhance code clarity and consistency by updating the way fields are
-defined. The primary transformation performed by this analyzer is as follows:</p>
-<p>Replace:</p>
-<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token function">Field</span><span class="token punctuation">(</span><span class="token named-parameter punctuation">name</span><span class="token punctuation">:</span> <span class="token string">"name"</span><span class="token punctuation">,</span> description<span class="token range operator">..</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token named-parameter punctuation">resolver</span><span class="token punctuation">:</span> <span class="token range operator">..</span><span class="token punctuation">.</span><span class="token punctuation">)</span></code></pre></div>
-<p>With:</p>
-<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token function">Field</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Description</span><span class="token punctuation">(</span><span class="token range operator">..</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Resolve</span><span class="token punctuation">(</span><span class="token range operator">..</span><span class="token punctuation">.</span><span class="token punctuation">)</span></code></pre></div>
-<h3 id="2-fieldnameanalyzer" style="position:relative;"><a href="#2-fieldnameanalyzer" aria-label="2 fieldnameanalyzer permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. FieldNameAnalyzer</h3>
-<p>The <code class="language-text">FieldNameAnalyzer</code> detects the usage of the obsolete <code class="language-text">Name</code> method on the
-field and connection builders and helps to rewrite the code to use builder
-creating methods that accept the name as an argument.</p>
-<p>Replace:</p>
-<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token generic-method"><span class="token function">Field</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>TGraphType<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Name</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span>
-<span class="token generic-method"><span class="token function">Connection</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>TGraphType<span class="token punctuation">,</span> TSourceType<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Name</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span></code></pre></div>
-<p>With:</p>
-<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token generic-method"><span class="token function">Field</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>TGraphType<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span>
-<span class="token generic-method"><span class="token function">Connection</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>TGraphType<span class="token punctuation">,</span> TSourceType<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span></code></pre></div>
-<h3 id="3-resolveranalyzer" style="position:relative;"><a href="#3-resolveranalyzer" aria-label="3 resolveranalyzer permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. ResolverAnalyzer</h3>
-<p>The <code class="language-text">ResolverAnalyzer</code> focuses on identifying incorrect usage of resolver
-methods. It ensures that resolver methods are used only on output graph types
-and flags usage on other types as errors. Additionally, it offers a code fix
-that removes these incorrect usages.</p>
-<h3 id="4-inputgraphtypeanalyzer" style="position:relative;"><a href="#4-inputgraphtypeanalyzer" aria-label="4 inputgraphtypeanalyzer permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. InputGraphTypeAnalyzer</h3>
-<p>The analyzer verifies the input source type can be constructed and input graph
-type fields can be mapped to the source type during deserialization process.</p>
-<h3 id="5-fieldargumentanalyzer" style="position:relative;"><a href="#5-fieldargumentanalyzer" aria-label="5 fieldargumentanalyzer permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. FieldArgumentAnalyzer</h3>
-<p>The analyzer detects an obsolete <code class="language-text">Argument</code> method usage and offers a code fix
-to automatically replace it with with another <code class="language-text">Argument</code> overload.</p>
-<h3 id="6-awaitableresolveranalyzer" style="position:relative;"><a href="#6-awaitableresolveranalyzer" aria-label="6 awaitableresolveranalyzer permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. AwaitableResolverAnalyzer</h3>
-<p>The analyzer detects awaitable resolver delegates used in sync <code class="language-text">Resolve</code> or
-<code class="language-text">ResolveScoped</code> methods and provides a code fix to replace them with an
-appropriate async version.</p>
-<h3 id="7-notagraphtypeanalyzer" style="position:relative;"><a href="#7-notagraphtypeanalyzer" aria-label="7 notagraphtypeanalyzer permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7. NotAGraphTypeAnalyzer</h3>
-<p>The analyzer identifies instances of incorrectly using <code class="language-text">GraphType</code> as generic
-type argument, where the type argument should not be of type <code class="language-text">IGraphType</code>.</p>
-<h3 id="8-oneofanalyzer" style="position:relative;"><a href="#8-oneofanalyzer" aria-label="8 oneofanalyzer permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8. OneOfAnalyzer</h3>
-<p>The analyzer validates the correct definition of the <code class="language-text">OneOf</code> input object
-fields.</p>
 <h2 id="configuration-in-editorconfig" style="position:relative;"><a href="#configuration-in-editorconfig" aria-label="configuration in editorconfig permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration in .editorconfig</h2>
 <p>Certain analyzers and code fixes offer configuration options that control when
 the rule is applied and how the automatic code fix executes code adjustments.
@@ -110,7 +70,98 @@ following syntax:</p>
 <p>Note: configuration keys are case insensitive</p>
 </blockquote>
 <p>For more information about analyzers configuration see
-<a href="https://learn.microsoft.com/en-us/visualstudio/code-quality/use-roslyn-analyzers?view=vs-2022">Code Analysis Configuration Overview</a></p></article><div class="content-toolbar"><a href="https://github.com/graphql-dotnet/graphql-dotnet/edit/master/docs2/site/docs/analyzers/overview.md" rel="noopener noreferrer" target="_blank">Edit this page on GitHub</a></div></div><div class="nav"><nav><ul><li><span>Getting Started</span><nav><ul><li><a class="" href="/docs/getting-started/introduction/">Introduction</a></li><li><a class="" href="/docs/getting-started/installation/">Installation</a></li><li><a class="" href="/docs/getting-started/graphiql/">GraphiQL</a></li><li><a class="" href="/docs/getting-started/altair-graphql/">Altair GraphQL</a></li><li><a class="" href="/docs/getting-started/queries/">Queries</a></li><li><a class="" href="/docs/getting-started/schema-types/">Schema Types</a></li><li><a class="" href="/docs/getting-started/custom-scalars/">Custom Scalars</a></li><li><a class="" href="/docs/getting-started/lists-non-null/">Lists and Non-Null</a></li><li><a class="" href="/docs/getting-started/arguments/">Arguments</a></li><li><a class="" href="/docs/getting-started/aliases/">Aliases</a></li><li><a class="" href="/docs/getting-started/fragments/">Fragments</a></li><li><a class="" href="/docs/getting-started/variables/">Variables</a></li><li><a class="" href="/docs/getting-started/directives/">Directives</a></li><li><a class="" href="/docs/getting-started/mutations/">Mutations</a></li><li><a class="" href="/docs/getting-started/interfaces/">Interfaces</a></li><li><a class="" href="/docs/getting-started/unions/">Unions</a></li><li><a class="" href="/docs/getting-started/subscriptions/">Subscriptions</a></li><li><a class="" href="/docs/getting-started/transport/">Transport</a></li><li><a class="" href="/docs/getting-started/query-validation/">Query Validation</a></li><li><a class="" href="/docs/getting-started/query-organization/">Query Organization</a></li><li><a class="" href="/docs/getting-started/user-context/">User Context</a></li><li><a class="" href="/docs/getting-started/errors/">Error Handling</a></li><li><a class="" href="/docs/getting-started/dependency-injection/">Dependency Injection</a></li><li><a class="" href="/docs/getting-started/databases/">Databases</a></li><li><a class="" href="/docs/getting-started/malicious-queries/">Malicious Queries</a></li><li><a class="" href="/docs/getting-started/metadata/">Object/Field Metadata</a></li><li><a class="" href="/docs/getting-started/field-middleware/">Field Middleware</a></li><li><a class="" href="/docs/getting-started/metrics/">Metrics</a></li><li><a class="" href="/docs/getting-started/authorization/">Authorization</a></li><li><a class="" href="/docs/getting-started/relay/">Relay</a></li><li><a class="" href="/docs/getting-started/global-switches/">Global Switches</a></li></ul></nav></li><li><span>Guides</span><nav><ul><li><a class="" href="/docs/guides/serialization/">Serialization</a></li><li><a class="" href="/docs/guides/dataloader/">Dataloader</a></li><li><a class="" href="/docs/guides/complexity-analyzer/">Complexity Analyzer</a></li><li><a class="" href="/docs/guides/schema-generation/">Schema Generation</a></li><li><a class="" href="/docs/guides/known-issues/">Known Issues &amp; FAQ</a></li><li><a class="" href="/docs/guides/links/">Links</a></li><li><a class="" href="/docs/guides/document-caching/">Document Caching</a></li></ul></nav></li><li><span>Analyzers</span><nav><ul><li><a aria-current="page" class="active" href="/docs/analyzers/overview/">Overview</a></li><li><a class="" href="/docs/analyzers/gql001/">GQL001</a></li><li><a class="" href="/docs/analyzers/gql002/">GQL002</a></li><li><a class="" href="/docs/analyzers/gql003/">GQL003</a></li><li><a class="" href="/docs/analyzers/gql004/">GQL004</a></li><li><a class="" href="/docs/analyzers/gql005/">GQL005</a></li><li><a class="" href="/docs/analyzers/gql006/">GQL006</a></li><li><a class="" href="/docs/analyzers/gql007/">GQL007</a></li><li><a class="" href="/docs/analyzers/gql008/">GQL008</a></li><li><a class="" href="/docs/analyzers/gql009/">GQL009</a></li><li><a class="" href="/docs/analyzers/gql010/">GQL010</a></li><li><a class="" href="/docs/analyzers/gql011/">GQL011</a></li><li><a class="" href="/docs/analyzers/gql012/">GQL012</a></li><li><a class="" href="/docs/analyzers/gql013/">GQL013</a></li><li><a class="" href="/docs/analyzers/gql014/">GQL014</a></li><li><a class="" href="/docs/analyzers/gql015/">GQL015</a></li><li><a class="" href="/docs/analyzers/gql016/">GQL016</a></li><li><a class="" href="/docs/analyzers/gql017/">GQL017</a></li><li><a class="" href="/docs/analyzers/gql018/">GQL018</a></li><li><a class="" href="/docs/analyzers/gql019/">GQL019</a></li><li><a class="" href="/docs/analyzers/gql020/">GQL020</a></li></ul></nav></li><li><span>Migration Guides</span><nav><ul><li><a class="" href="/docs/migrations/migration8/">Migration Guide [v7 -&gt; v8]</a></li><li><a class="" href="/docs/migrations/migration7/">Migration Guide [v5 -&gt; v7]</a></li><li><a class="" href="/docs/migrations/migration5/">Migration Guide [v4 -&gt; v5]</a></li><li><a class="" href="/docs/migrations/migration4/">Migration Guide [v3 -&gt; v4]</a></li><li><a class="" href="/docs/migrations/migration3/">Migration Guide [v2 -&gt; v3]</a></li><li><a class="" href="/docs/migrations/migration2/">Migration Guide [v0.17.x -&gt; v2]</a></li><li><a class="" href="/docs/migrations/v0_11_0/">Migration Guide [v0.11.0]</a></li><li><a class="" href="/docs/migrations/v0_8_0/">Migration Guide [v0.8.0]</a></li></ul></nav></li></ul></nav></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/docs/analyzers/overview/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
+<a href="https://learn.microsoft.com/en-us/visualstudio/code-quality/use-roslyn-analyzers?view=vs-2022">Code Analysis Configuration Overview</a></p>
+<h2 id="included-analyzers" style="position:relative;"><a href="#included-analyzers" aria-label="included analyzers permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Included Analyzers</h2>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../gql001">GQL001</a></td>
+<td>Define the name in Field, <code class="language-text">Connection</code> or <code class="language-text">ConnectionBuilder.Create</code> method</td>
+</tr>
+<tr>
+<td><a href="../gql002">GQL002</a></td>
+<td><code class="language-text">Name</code> method invocation can be removed</td>
+</tr>
+<tr>
+<td><a href="../gql003">GQL003</a></td>
+<td>Different names defined by <code class="language-text">Field</code>, <code class="language-text">Connection</code> or <code class="language-text">ConnectionBuilder.Create</code> and <code class="language-text">Name</code> methods</td>
+</tr>
+<tr>
+<td><a href="../gql004">GQL004</a></td>
+<td>Don't use obsolete <code class="language-text">Field</code> methods</td>
+</tr>
+<tr>
+<td><a href="../gql005">GQL005</a></td>
+<td>Illegal resolver usage</td>
+</tr>
+<tr>
+<td><a href="../gql006">GQL006</a></td>
+<td>Can not match input field to the source field</td>
+</tr>
+<tr>
+<td><a href="../gql007">GQL007</a></td>
+<td>Can not set source field</td>
+</tr>
+<tr>
+<td><a href="../gql008">GQL008</a></td>
+<td>Don't use an obsolete <code class="language-text">Argument</code> method</td>
+</tr>
+<tr>
+<td><a href="../gql009">GQL009</a></td>
+<td>Use async resolver</td>
+</tr>
+<tr>
+<td><a href="../gql010">GQL010</a></td>
+<td>Can not resolve input source type constructor</td>
+</tr>
+<tr>
+<td><a href="../gql011">GQL011</a></td>
+<td>The type must not be convertible to <code class="language-text">IGraphType</code></td>
+</tr>
+<tr>
+<td><a href="../gql012">GQL012</a></td>
+<td>Illegal method usage</td>
+</tr>
+<tr>
+<td><a href="../gql013">GQL013</a></td>
+<td><code class="language-text">OneOf</code> fields must be nullable</td>
+</tr>
+<tr>
+<td><a href="../gql014">GQL014</a></td>
+<td><code class="language-text">OneOf</code> fields must not have default value</td>
+</tr>
+<tr>
+<td><a href="../gql015">GQL015</a></td>
+<td>Can't infer a <code class="language-text">Field</code> name from expression</td>
+</tr>
+<tr>
+<td><a href="../gql016">GQL016</a></td>
+<td>Require parameterless constructor</td>
+</tr>
+<tr>
+<td><a href="../gql017">GQL017</a></td>
+<td>Could not find method</td>
+</tr>
+<tr>
+<td><a href="../gql018">GQL018</a></td>
+<td><code class="language-text">Parser</code> method must be valid</td>
+</tr>
+<tr>
+<td><a href="../gql019">GQL019</a></td>
+<td><code class="language-text">Validator</code> method must be valid</td>
+</tr>
+<tr>
+<td><a href="../gql020">GQL020</a></td>
+<td><code class="language-text">ValidateArguments</code> method must be valid</td>
+</tr>
+</tbody>
+</table></article><div class="content-toolbar"><a href="https://github.com/graphql-dotnet/graphql-dotnet/edit/master/docs2/site/docs/analyzers/overview.md" rel="noopener noreferrer" target="_blank">Edit this page on GitHub</a></div></div><div class="nav"><nav><ul><li><span>Getting Started</span><nav><ul><li><a class="" href="/docs/getting-started/introduction/">Introduction</a></li><li><a class="" href="/docs/getting-started/installation/">Installation</a></li><li><a class="" href="/docs/getting-started/graphiql/">GraphiQL</a></li><li><a class="" href="/docs/getting-started/altair-graphql/">Altair GraphQL</a></li><li><a class="" href="/docs/getting-started/queries/">Queries</a></li><li><a class="" href="/docs/getting-started/schema-types/">Schema Types</a></li><li><a class="" href="/docs/getting-started/custom-scalars/">Custom Scalars</a></li><li><a class="" href="/docs/getting-started/lists-non-null/">Lists and Non-Null</a></li><li><a class="" href="/docs/getting-started/arguments/">Arguments</a></li><li><a class="" href="/docs/getting-started/aliases/">Aliases</a></li><li><a class="" href="/docs/getting-started/fragments/">Fragments</a></li><li><a class="" href="/docs/getting-started/variables/">Variables</a></li><li><a class="" href="/docs/getting-started/directives/">Directives</a></li><li><a class="" href="/docs/getting-started/mutations/">Mutations</a></li><li><a class="" href="/docs/getting-started/interfaces/">Interfaces</a></li><li><a class="" href="/docs/getting-started/unions/">Unions</a></li><li><a class="" href="/docs/getting-started/subscriptions/">Subscriptions</a></li><li><a class="" href="/docs/getting-started/transport/">Transport</a></li><li><a class="" href="/docs/getting-started/query-validation/">Query Validation</a></li><li><a class="" href="/docs/getting-started/query-organization/">Query Organization</a></li><li><a class="" href="/docs/getting-started/user-context/">User Context</a></li><li><a class="" href="/docs/getting-started/errors/">Error Handling</a></li><li><a class="" href="/docs/getting-started/dependency-injection/">Dependency Injection</a></li><li><a class="" href="/docs/getting-started/databases/">Databases</a></li><li><a class="" href="/docs/getting-started/malicious-queries/">Malicious Queries</a></li><li><a class="" href="/docs/getting-started/metadata/">Object/Field Metadata</a></li><li><a class="" href="/docs/getting-started/field-middleware/">Field Middleware</a></li><li><a class="" href="/docs/getting-started/metrics/">Metrics</a></li><li><a class="" href="/docs/getting-started/authorization/">Authorization</a></li><li><a class="" href="/docs/getting-started/relay/">Relay</a></li><li><a class="" href="/docs/getting-started/global-switches/">Global Switches</a></li></ul></nav></li><li><span>Guides</span><nav><ul><li><a class="" href="/docs/guides/serialization/">Serialization</a></li><li><a class="" href="/docs/guides/dataloader/">Dataloader</a></li><li><a class="" href="/docs/guides/complexity-analyzer/">Complexity Analyzer</a></li><li><a class="" href="/docs/guides/schema-generation/">Schema Generation</a></li><li><a class="" href="/docs/guides/known-issues/">Known Issues &amp; FAQ</a></li><li><a class="" href="/docs/guides/links/">Links</a></li><li><a class="" href="/docs/guides/document-caching/">Document Caching</a></li></ul></nav></li><li><span>Analyzers</span><nav><ul><li><a aria-current="page" class="active" href="/docs/analyzers/overview/">Overview</a></li><li><a class="" href="/docs/analyzers/gql001/">GQL001</a></li><li><a class="" href="/docs/analyzers/gql002/">GQL002</a></li><li><a class="" href="/docs/analyzers/gql003/">GQL003</a></li><li><a class="" href="/docs/analyzers/gql004/">GQL004</a></li><li><a class="" href="/docs/analyzers/gql005/">GQL005</a></li><li><a class="" href="/docs/analyzers/gql006/">GQL006</a></li><li><a class="" href="/docs/analyzers/gql007/">GQL007</a></li><li><a class="" href="/docs/analyzers/gql008/">GQL008</a></li><li><a class="" href="/docs/analyzers/gql009/">GQL009</a></li><li><a class="" href="/docs/analyzers/gql010/">GQL010</a></li><li><a class="" href="/docs/analyzers/gql011/">GQL011</a></li><li><a class="" href="/docs/analyzers/gql012/">GQL012</a></li><li><a class="" href="/docs/analyzers/gql013/">GQL013</a></li><li><a class="" href="/docs/analyzers/gql014/">GQL014</a></li><li><a class="" href="/docs/analyzers/gql015/">GQL015</a></li><li><a class="" href="/docs/analyzers/gql016/">GQL016</a></li><li><a class="" href="/docs/analyzers/gql017/">GQL017</a></li><li><a class="" href="/docs/analyzers/gql018/">GQL018</a></li><li><a class="" href="/docs/analyzers/gql019/">GQL019</a></li><li><a class="" href="/docs/analyzers/gql020/">GQL020</a></li></ul></nav></li><li><span>Migration Guides</span><nav><ul><li><a class="" href="/docs/migrations/migration8/">Migration Guide [v7 -&gt; v8]</a></li><li><a class="" href="/docs/migrations/migration7/">Migration Guide [v5 -&gt; v7]</a></li><li><a class="" href="/docs/migrations/migration5/">Migration Guide [v4 -&gt; v5]</a></li><li><a class="" href="/docs/migrations/migration4/">Migration Guide [v3 -&gt; v4]</a></li><li><a class="" href="/docs/migrations/migration3/">Migration Guide [v2 -&gt; v3]</a></li><li><a class="" href="/docs/migrations/migration2/">Migration Guide [v0.17.x -&gt; v2]</a></li><li><a class="" href="/docs/migrations/v0_11_0/">Migration Guide [v0.11.0]</a></li><li><a class="" href="/docs/migrations/v0_8_0/">Migration Guide [v0.8.0]</a></li></ul></nav></li></ul></nav></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/docs/analyzers/overview/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
           <script
             id="gatsby-chunk-mapping"
           >
