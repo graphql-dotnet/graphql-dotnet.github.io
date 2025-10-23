@@ -1292,6 +1292,12 @@ with other middleware.</p>
 from user code, similar to <code class="language-text">HttpContextAccessor</code> or <code class="language-text">DataLoaderContextAccessor</code>. This is useful when
 you need to access the current field resolution context from services or other code that doesn't have
 direct access to the context parameter.</p>
+<p>Additionally, the <code class="language-text">IRequiresResolveFieldContextAccessor</code> interface has been added to allow resolvers
+to indicate whether they require the context accessor. Resolvers that implement this interface and
+return <code class="language-text">false</code> for the <code class="language-text">RequiresResolveFieldContextAccessor</code> property will not have the context accessor
+middleware applied, even when <code class="language-text">AddResolveFieldContextAccessor()</code> is called globally. This provides an
+optimization to avoid the overhead of the context accessor for resolvers that don't need it, such as
+simple property accessors.</p>
 <p>To enable the context accessor, call <code class="language-text">AddResolveFieldContextAccessor()</code> on your GraphQL builder:</p>
 <div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp">services<span class="token punctuation">.</span><span class="token function">AddGraphQL</span><span class="token punctuation">(</span>b <span class="token operator">=></span> b
     <span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddSchema</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>MySchema<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
