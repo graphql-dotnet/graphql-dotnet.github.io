@@ -74,6 +74,7 @@ to apply automatic code fixes to obsolete code patterns before upgrading to 8.0.
 <li>Optimize scalar lists (e.g. <code class="language-text">ListGraphType&lt;IntGraphType></code>)</li>
 <li>Allow GraphQL interfaces to implement other GraphQL interfaces (based on spec)</li>
 <li>Field-specific middleware support (v8.7.0+)</li>
+<li><code class="language-text">IResolveFieldContextAccessor</code> opt-in support for accessing current field context (v8.7.0+)</li>
 </ul>
 <p>Some of these features require changes to the infrastructure, which can cause breaking changes during upgrades.
 Most notably, if your server uses any of the following features, you are likely to encounter migration issues:</p>
@@ -1286,6 +1287,41 @@ they were applied:</p>
 <p>The <code class="language-text">[Scoped]</code> attribute and related methods now use field middleware internally instead of wrapping
 the resolver directly. This provides better composability and allows scoped services to work seamlessly
 with other middleware.</p>
+<h3 id="37-code-classlanguage-textiresolvefieldcontextaccessorcode-for-accessing-current-field-context-v870" style="position:relative;"><a href="#37-code-classlanguage-textiresolvefieldcontextaccessorcode-for-accessing-current-field-context-v870" aria-label="37 code classlanguage textiresolvefieldcontextaccessorcode for accessing current field context v870 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>37. <code class="language-text">IResolveFieldContextAccessor</code> for accessing current field context (v8.7.0+)</h3>
+<p>An opt-in <code class="language-text">IResolveFieldContextAccessor</code> has been added to retrieve the current <code class="language-text">IResolveFieldContext</code>
+from user code, similar to <code class="language-text">HttpContextAccessor</code> or <code class="language-text">DataLoaderContextAccessor</code>. This is useful when
+you need to access the current field resolution context from services or other code that doesn't have
+direct access to the context parameter.</p>
+<p>To enable the context accessor, call <code class="language-text">AddResolveFieldContextAccessor()</code> on your GraphQL builder:</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp">services<span class="token punctuation">.</span><span class="token function">AddGraphQL</span><span class="token punctuation">(</span>b <span class="token operator">=></span> b
+    <span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddSchema</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>MySchema<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">AddResolveFieldContextAccessor</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p>Then inject <code class="language-text">IResolveFieldContextAccessor</code> into your services:</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyService</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">readonly</span> <span class="token class-name">IResolveFieldContextAccessor</span> _contextAccessor<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">MyService</span><span class="token punctuation">(</span><span class="token class-name">IResolveFieldContextAccessor</span> contextAccessor<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        _contextAccessor <span class="token operator">=</span> contextAccessor<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> <span class="token function">GetCurrentFieldName</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword">var</span></span> context <span class="token operator">=</span> _contextAccessor<span class="token punctuation">.</span>ResolveFieldContext<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> context<span class="token punctuation">.</span>FieldDefinition<span class="token punctuation">.</span>Name<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>The accessor uses <code class="language-text">AsyncLocal&lt;T></code> to store the context per async flow, ensuring thread-safety and
+proper context isolation across concurrent requests. The context is automatically populated during
+field resolution and cleared after the resolver completes. The context will not be available within
+data loader batch functions, as they execute outside the original field resolver.</p>
+<p><strong>Note:</strong> The context accessor adds a small performance overhead as middleware must be applied to
+every field in the schema. Only enable it if you need to access the context from services or other
+code that doesn't have direct access to the resolver's context parameter. To mitigate this overhead,
+the context accessor middleware is not applied to fields that directly access a property or field of
+the source object. Use a resolver function if a property getter needs to access the context.</p>
 <h2 id="breaking-changes" style="position:relative;"><a href="#breaking-changes" aria-label="breaking changes permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Breaking Changes</h2>
 <h3 id="1-query-type-is-required" style="position:relative;"><a href="#1-query-type-is-required" aria-label="1 query type is required permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Query type is required</h3>
 <p>Pursuant to the GraphQL specification, a query type is required for any schema.
