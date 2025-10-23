@@ -73,6 +73,7 @@ to apply automatic code fixes to obsolete code patterns before upgrading to 8.0.
 <li>Better error handling of GraphQL.NET pipeline; add timeout support</li>
 <li>Optimize scalar lists (e.g. <code class="language-text">ListGraphType&lt;IntGraphType></code>)</li>
 <li>Allow GraphQL interfaces to implement other GraphQL interfaces (based on spec)</li>
+<li>Field-specific middleware support (v8.7.0+)</li>
 </ul>
 <p>Some of these features require changes to the infrastructure, which can cause breaking changes during upgrades.
 Most notably, if your server uses any of the following features, you are likely to encounter migration issues:</p>
@@ -1258,6 +1259,33 @@ services<span class="token punctuation">.</span><span class="token function">Add
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre></div>
 <p>This method is called exactly once for each graph type during schema initialization, ensuring that duplicate calls are avoided even when types are referenced multiple times or built automatically.</p>
+<h3 id="36-field-specific-middleware-support-v870" style="position:relative;"><a href="#36-field-specific-middleware-support-v870" aria-label="36 field specific middleware support v870 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>36. Field-specific middleware support (v8.7.0+)</h3>
+<p>GraphQL.NET now supports field-specific middleware through the <code class="language-text">FieldType.Middleware</code> property.
+This allows middleware to be applied to individual fields rather than only globally across all fields
+in the schema. Field middleware is collapsed into the field's resolver during schema initialization
+for optimal performance.</p>
+<p>You can apply middleware to individual fields using the <code class="language-text">ApplyMiddleware()</code> field builder extension method:</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyGraphType</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">ObjectGraphType</span></span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token function">MyGraphType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token generic-method"><span class="token function">Field</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>StringGraphType<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token string">"myField"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">Resolve</span><span class="token punctuation">(</span>context <span class="token operator">=></span> <span class="token string">"Hello World"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">ApplyMiddleware</span><span class="token punctuation">(</span>next <span class="token operator">=></span> <span class="token keyword">async</span> <span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token operator">=></span>    <span class="token comment">// using a lambda</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment">// Code before resolver execution</span>
+                <span class="token class-name"><span class="token keyword">var</span></span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">next</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// Code after resolver execution</span>
+                <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>Multiple middleware can be chained together on a single field, and they will be executed in the order
+they were applied:</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token generic-method"><span class="token function">Field</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>StringGraphType<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token string">"myField"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">Resolve</span><span class="token punctuation">(</span>context <span class="token operator">=></span> <span class="token string">"Hello World"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">ApplyMiddleware</span><span class="token punctuation">(</span>loggingMiddleware<span class="token punctuation">)</span>            <span class="token comment">// using an instance</span>
+    <span class="token punctuation">.</span><span class="token generic-method"><span class="token function">ApplyMiddleware</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>AuthorizationMiddleware<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// pulled from dependency injection</span></code></pre></div>
 <h2 id="breaking-changes" style="position:relative;"><a href="#breaking-changes" aria-label="breaking changes permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Breaking Changes</h2>
 <h3 id="1-query-type-is-required" style="position:relative;"><a href="#1-query-type-is-required" aria-label="1 query type is required permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Query type is required</h3>
 <p>Pursuant to the GraphQL specification, a query type is required for any schema.
